@@ -26,7 +26,4 @@ User.sync({
   force: true,
 });
 
-User.belongsToMany(Volunteer, { through: "UserVolunteer" });
-Volunteer.belongsToMany(User, { through: "UserVolunteer" });
-
 module.exports = User;
