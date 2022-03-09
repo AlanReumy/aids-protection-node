@@ -22,8 +22,9 @@ app.use(require("koa-static")(__dirname + "/public"));
 // 处理跨域
 app.use(cors());
 
-// initApp config routes jwt
 initApp(app);
+const db = require("./model");
+db.sequelize.sync();
 
 // logger
 app.use(async (ctx, next) => {

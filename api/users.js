@@ -1,21 +1,22 @@
-const model = require("../model");
+const db = require("../model");
 const Router = require("koa-router");
 let router = new Router({
   prefix: "/api/user",
 });
 
-let User = model.User; //获取User模型
+let users = db.users; //获取User模型
 
 //注册
 router.post("/register", async (ctx) => {
   let registerUser = ctx.request.body;
   const { username, isVolunteer, password, phone } = registerUser;
-  await User.create({
-    username,
-    password,
-    isVolunteer,
-    phone,
-  })
+  await users
+    .create({
+      username,
+      password,
+      isVolunteer,
+      phone,
+    })
     .then((result) => {
       ctx.body = new global.errs.Success({
         info: result,
@@ -31,11 +32,12 @@ router.post("/register", async (ctx) => {
 router.post("/login", async (ctx) => {
   let loginUser = ctx.request.body;
   //数据库查询
-  await User.findOne({
-    where: {
-      username: loginUser.username,
-    },
-  })
+  await users
+    .findOne({
+      where: {
+        username: loginUser.username,
+      },
+    })
     //查询值传入
     .then(async (result) => {
       //判断密码是否一致
