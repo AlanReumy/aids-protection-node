@@ -133,4 +133,19 @@ router.post("/info", async (ctx) => {
     });
 });
 
+// 查看用户列表
+router.get("/list", async (ctx) => {
+  await users
+    .findAll()
+    .then((res) => {
+      ctx.body = new global.errs.Success({
+        info: res,
+        res: "操作成功",
+      });
+    })
+    .catch((err) => {
+      ctx.body = new global.errs.HttpException("操作失败");
+    });
+});
+
 module.exports = router;
