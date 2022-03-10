@@ -52,6 +52,7 @@ router.post("/login", async (ctx) => {
       }
     })
     .catch((err) => {
+      console.log(err);
       ctx.body = new global.errs.NotFound("登录失败");
     });
 });
