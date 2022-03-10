@@ -1,7 +1,7 @@
 module.exports = {
   HOST: "localhost", //主机名
-  DB: "aidsProtection", //使用的哪个数据库名
-  USER: "root", //账号
+  DB: "aidsprotection", //使用的哪个数据库名
+  USER: "aidsprotection", //账号
   PASSWORD: "lyxa1105", //密码,
   dialect: "mysql",
   pool: {
