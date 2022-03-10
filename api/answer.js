@@ -5,7 +5,7 @@ let router = new Router({
   prefix: "/api/answer",
 });
 
-let { questions, answers, users } = db;
+let { answers, users } = db;
 
 // create
 router.post("/create", async (ctx) => {

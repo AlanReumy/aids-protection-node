@@ -7,7 +7,7 @@ let router = new Router({
 
 let { questions, users } = db;
 
-// create
+// 创建问题
 router.post("/create", async (ctx) => {
   let payload = ctx.request.body;
   const { title, desc, userId } = payload;
@@ -25,10 +25,34 @@ router.post("/create", async (ctx) => {
     });
 });
 
-// list
+// 查看问题列表
 router.get("/list", async (ctx) => {
   await questions
-    .findAll()
+    .findAll({
+      include: {
+        model: users,
+      },
+    })
+    .then(async (result) => {
+      ctx.body = new global.errs.Success({
+        info: result,
+        res: "查找成功",
+      });
+    })
+    .catch((err) => {
+      ctx.body = new global.errs.HttpException();
+    });
+});
+
+// 根据用户id查询问题列表
+router.post("/list", async (ctx) => {
+  let { userId } = ctx.request.body;
+  await questions
+    .findAll({
+      where: {
+        user_id: userId,
+      },
+    })
     .then(async (result) => {
       ctx.body = new global.errs.Success({
         info: result,

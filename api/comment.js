@@ -5,7 +5,7 @@ let router = new Router({
   prefix: "/api/comment",
 });
 
-let { answers, comments, users } = db;
+let { comments, users } = db;
 
 // create
 router.post("/create", async (ctx) => {
@@ -33,6 +33,9 @@ router.post("/list", async (ctx) => {
     .findAll({
       where: {
         answerId,
+      },
+      include: {
+        model: users,
       },
     })
     .then(async (result) => {
