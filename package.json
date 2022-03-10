@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node bin/www",
-    "dev": "nodemon app.js",
     "prd": "pm2 start bin/www",
+    "dev": "set NODE_ENV='development' && node app.js",
+    "build": "export NODE_ENV='production' && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
