@@ -8,6 +8,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       password: Sequelize.STRING(100),
       phone: Sequelize.STRING(100),
+      avatar: Sequelize.STRING(100),
       isVolunteer: {
         type: Sequelize.BOOLEAN,
         default: false,
