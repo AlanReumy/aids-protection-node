@@ -6,6 +6,7 @@ const cors = require("koa2-cors");
 const initApp = require("./util/init");
 const db = require("./model");
 
+app.use(Parser());
 app.use(async (ctx, next) => {
   log4j.info(`get: ${JSON.stringify(ctx.request.query)}`)         // 监听get请求
   log4j.info(`params: ${JSON.stringify(ctx.request.body)}`)       // 监听post请求
@@ -15,7 +16,6 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
-app.use(Parser());
 app.use(require("koa-static")(__dirname + "/public"));
 
 //配置 cors 的中间件
