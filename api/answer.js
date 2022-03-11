@@ -30,8 +30,8 @@ router.post("/create", async (ctx) => {
 });
 
 // 根据问题查看回答列表
-router.post("/list", async (ctx) => {
-  const { questionId } = ctx.request.body;
+router.get("/list", async (ctx) => {
+  const { questionId } = ctx.request.query;
   await answers
     .findAll({
       where: {

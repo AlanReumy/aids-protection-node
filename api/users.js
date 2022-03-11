@@ -107,7 +107,7 @@ router.post("/update", async (ctx) => {
 
 // 获取用户信息
 router.get("/info", async (ctx) => {
-  let userId = ctx.request.query;
+  let { userId } = ctx.request.query;
   await users
     .findOne({
       where: {

@@ -27,8 +27,8 @@ router.post("/create", async (ctx) => {
 });
 
 // list
-router.post("/list", async (ctx) => {
-  const { answerId } = ctx.request.body;
+router.get("/list", async (ctx) => {
+  const { answerId } = ctx.request.query;
   await comments
     .findAll({
       where: {
@@ -39,10 +39,10 @@ router.post("/list", async (ctx) => {
       },
     })
     .then((res) => {
-      ctx.body = success(res, '创建成功', CODE.SUCCESS)
+      ctx.body = success(res, '查找成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      ctx.body = fail(err, '创建失败', CODE.BUSINESS_ERROR)
+      ctx.body = fail(err, '查找失败', CODE.BUSINESS_ERROR)
     });
 });
 

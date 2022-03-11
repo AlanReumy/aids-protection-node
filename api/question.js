@@ -43,8 +43,8 @@ router.get("/list", async (ctx) => {
 });
 
 // 根据用户id查询问题列表
-router.get("/list/userId", async (ctx) => {
-  let userId = ctx.request.query;
+router.get("/list", async (ctx) => {
+  let { userId } = ctx.request.query;
   await questions
     .findAll({
       where: {
