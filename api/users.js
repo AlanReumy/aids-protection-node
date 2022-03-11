@@ -20,8 +20,8 @@ router.post("/register", async (ctx) => {
       isVolunteer,
       phone,
     })
-    .then((result) => {
-      ctx.body = success(result, '注册成功', CODE.SUCCESS)
+    .then((res) => {
+      ctx.body = success(res, '注册成功', CODE.SUCCESS)
     })
     .catch((err) => {
       ctx.body = fail(err, '注册失败', CODE.BUSINESS_ERROR)
@@ -31,20 +31,17 @@ router.post("/register", async (ctx) => {
 //登录
 router.post("/login", async (ctx) => {
   let loginUser = ctx.request.body;
-  //数据库查询
   await users
     .findOne({
       where: {
         username: loginUser.username,
       },
     })
-    //查询值传入
-    .then(async (result) => {
-      //判断密码是否一致
-      if (result && result.password === loginUser.password) {
-        ctx.body = success(result, '登录成功', CODE.SUCCESS)
+    .then((res) => {
+      if (res && res.password === loginUser.password) {
+        ctx.body = success(res, '登录成功', CODE.SUCCESS)
       } else {
-        ctx.body = fail(result, '登录失败', CODE.BUSINESS_ERROR)
+        ctx.body = fail(res, '登录失败', CODE.BUSINESS_ERROR)
       }
     })
     .catch((err) => {
@@ -66,11 +63,11 @@ router.post("/bevolunteer", async (ctx) => {
         },
       }
     )
-    .then(() => {
-      ctx.body = new global.errs.Success("操作成功");
+    .then((res) => {
+      ctx.body = success(res, '操作成功', CODE.SUCCESS)
     })
-    .catch(() => {
-      ctx.body = new global.errs.HttpException("操作失败");
+    .catch((err) => {
+      ctx.body = fail(err, '操作失败', CODE.BUSINESS_ERROR)
     });
 });
 
@@ -101,16 +98,16 @@ router.post("/update", async (ctx) => {
       }
     )
     .then((res) => {
-      ctx.body = new global.errs.Success("更新成功");
+      ctx.body = success(res, '更新成功', CODE.SUCCESS)
     })
-    .catch(() => {
-      ctx.body = new global.errs.HttpException("操作失败");
+    .catch((err) => {
+      ctx.body = fail(err, '更新失败', CODE.BUSINESS_ERROR)
     });
 });
 
 // 获取用户信息
-router.post("/info", async (ctx) => {
-  let { userId } = ctx.request.body;
+router.get("/info", async (ctx) => {
+  let userId = ctx.request.query;
   await users
     .findOne({
       where: {
@@ -118,13 +115,10 @@ router.post("/info", async (ctx) => {
       },
     })
     .then((res) => {
-      ctx.body = new global.errs.Success({
-        info: res,
-        res: "操作成功",
-      });
+      ctx.body = success(res, '查找成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      ctx.body = new global.errs.HttpException("操作失败");
+      ctx.body = fail(err, '查找成功', CODE.BUSINESS_ERROR)
     });
 });
 
@@ -133,13 +127,10 @@ router.get("/list", async (ctx) => {
   await users
     .findAll()
     .then((res) => {
-      ctx.body = new global.errs.Success({
-        info: res,
-        res: "操作成功",
-      });
+      ctx.body = success(res, '查找成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      ctx.body = new global.errs.HttpException("操作失败");
+      ctx.body = fail(err, '查找失败', CODE.BUSINESS_ERROR)
     });
 });
 

@@ -1,5 +1,6 @@
 const db = require("../model");
 const Router = require("koa-router");
+const { success, CODE, fail } = require("../util/util");
 
 let router = new Router({
   prefix: "/api/volunteer",
@@ -17,11 +18,11 @@ router.post("/create", async (ctx) => {
       desc,
       startDate,
     })
-    .then((result) => {
-      ctx.body = new global.errs.Success("创建成功");
+    .then((res) => {
+      ctx.body = success(res, '创建成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      ctx.body = new global.errs.HttpException();
+      ctx.body = fail(err, '创建失败', CODE.BUSINESS_ERROR)
     });
 });
 
@@ -29,16 +30,11 @@ router.post("/create", async (ctx) => {
 router.get("/list", async (ctx) => {
   await volunteers
     .findAll()
-    .then(async (result) => {
-      ctx.body = new global.errs.Success({
-        info: {
-          result,
-        },
-        res: "查找成功",
-      });
+    .then((res) => {
+      ctx.body = success(res, '查找成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      ctx.body = new global.errs.HttpException();
+      ctx.body = fail(err, '查找失败', CODE.BUSINESS_ERROR)
     });
 });
 
@@ -59,12 +55,10 @@ router.post("/booking", async (ctx) => {
   await volunteer
     .setUsers(user)
     .then((res) => {
-      ctx.body = new global.errs.Success({
-        res: "预约成功",
-      });
+      ctx.body = success(res, '预约成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      ctx.body = new global.errs.HttpException();
+      ctx.body = fail(err, '预约失败', CODE.BUSINESS_ERROR)
     });
 });
 

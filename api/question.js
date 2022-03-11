@@ -1,5 +1,6 @@
 const db = require("../model");
 const Router = require("koa-router");
+const { success, CODE, fail } = require("../util/util");
 
 let router = new Router({
   prefix: "/api/question",
@@ -17,11 +18,11 @@ router.post("/create", async (ctx) => {
       desc,
       userId,
     })
-    .then((result) => {
-      ctx.body = new global.errs.Success("创建成功");
+    .then((res) => {
+      ctx.body = success(res, '创建成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      ctx.body = new global.errs.HttpException();
+      ctx.body = fail(err, '创建失败', CODE.BUSINESS_ERROR)
     });
 });
 
@@ -33,34 +34,28 @@ router.get("/list", async (ctx) => {
         model: users,
       },
     })
-    .then(async (result) => {
-      ctx.body = new global.errs.Success({
-        info: result,
-        res: "查找成功",
-      });
+    .then((res) => {
+      ctx.body = success(res, '查找成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      ctx.body = new global.errs.HttpException();
+      ctx.body = fail(err, '查找失败', CODE.BUSINESS_ERROR)
     });
 });
 
 // 根据用户id查询问题列表
-router.post("/list", async (ctx) => {
-  let { userId } = ctx.request.body;
+router.get("/list/userId", async (ctx) => {
+  let userId = ctx.request.query;
   await questions
     .findAll({
       where: {
         user_id: userId,
       },
     })
-    .then(async (result) => {
-      ctx.body = new global.errs.Success({
-        info: result,
-        res: "查找成功",
-      });
+    .then((res) => {
+      ctx.body = success(res, '操作成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      ctx.body = new global.errs.HttpException();
+      ctx.body = fail(err, '操作成功', CODE.BUSINESS_ERROR)
     });
 });
 

@@ -1,5 +1,6 @@
 const db = require("../model");
 const Router = require("koa-router");
+const { success, CODE, fail } = require("../util/util");
 
 let router = new Router({
   prefix: "/api/comment",
@@ -17,12 +18,11 @@ router.post("/create", async (ctx) => {
       answerId,
       userId,
     })
-    .then((result) => {
-      ctx.body = new global.errs.Success("创建成功");
+    .then((res) => {
+      ctx.body = success(res, '创建成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      console.log(err);
-      ctx.body = new global.errs.HttpException();
+      ctx.body = fail(err, '创建失败', CODE.BUSINESS_ERROR)
     });
 });
 
@@ -38,15 +38,11 @@ router.post("/list", async (ctx) => {
         model: users,
       },
     })
-    .then(async (result) => {
-      ctx.body = new global.errs.Success({
-        info: result,
-        res: "查找成功",
-      });
+    .then((res) => {
+      ctx.body = success(res, '创建成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      console.log(err);
-      ctx.body = new global.errs.HttpException();
+      ctx.body = fail(err, '创建失败', CODE.BUSINESS_ERROR)
     });
 });
 

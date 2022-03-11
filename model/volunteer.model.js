@@ -5,6 +5,7 @@ module.exports = (sequelize, Sequelize) => {
       title: Sequelize.STRING(100),
       desc: Sequelize.STRING(100),
       startDate: Sequelize.DATE(),
+      endDate: Sequelize.DATE()
     },
     {
       freezeTableName: false,
