@@ -24,6 +24,7 @@
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
     "koa2-cors": "^2.0.6",
+    "log4js": "^6.4.2",
     "mysql2": "^2.3.3",
     "pug": "^2.0.3",
     "require-directory": "^2.1.1",

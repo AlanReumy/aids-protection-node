@@ -1,9 +1,19 @@
 const Koa = require("koa");
+const app = new Koa();
+const log4j = require('./util/log4j')
 const Parser = require("koa-bodyparser");
 const cors = require("koa2-cors");
 const initApp = require("./util/init");
 const db = require("./model");
-const app = new Koa();
+
+app.use(async (ctx, next) => {
+  log4j.info(`get: ${JSON.stringify(ctx.request.query)}`)         // 监听get请求
+  log4j.info(`params: ${JSON.stringify(ctx.request.body)}`)       // 监听post请求
+  const start = new Date()
+  await next()
+  const ms = new Date() - start
+  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+})
 
 app.use(Parser());
 app.use(require("koa-static")(__dirname + "/public"));

@@ -2,6 +2,7 @@ const db = require("../model");
 const Router = require("koa-router");
 const upload = require("../util/upload");
 const config = require("../config");
+const { success, CODE, fail } = require("../util/util");
 let router = new Router({
   prefix: "/api/user",
 });
@@ -20,13 +21,10 @@ router.post("/register", async (ctx) => {
       phone,
     })
     .then((result) => {
-      ctx.body = new global.errs.Success({
-        info: result,
-        res: "注册成功",
-      });
+      ctx.body = success(result, '注册成功', CODE.SUCCESS)
     })
     .catch((err) => {
-      ctx.body = new global.errs.HttpException("注册失败");
+      ctx.body = fail(err, '注册失败', CODE.BUSINESS_ERROR)
     });
 });
 
@@ -44,16 +42,13 @@ router.post("/login", async (ctx) => {
     .then(async (result) => {
       //判断密码是否一致
       if (result && result.password === loginUser.password) {
-        ctx.body = new global.errs.Success({
-          info: result,
-        });
+        ctx.body = success(result, '登录成功', CODE.SUCCESS)
       } else {
-        ctx.body = new global.errs.NotFound("登录失败");
+        ctx.body = fail(result, '登录失败', CODE.BUSINESS_ERROR)
       }
     })
     .catch((err) => {
-      console.log(err);
-      ctx.body = new global.errs.NotFound("登录失败");
+      ctx.body = fail(err, '登录失败', CODE.BUSINESS_ERROR)
     });
 });
 

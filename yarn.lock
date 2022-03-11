@@ -568,6 +568,11 @@
   "resolved" "https://registry.npmjs.org/crypto-random-string/-/crypto-random-string-1.0.0.tgz"
   "version" "1.0.0"
 
+"date-format@^4.0.4":
+  "integrity" "sha512-/jyf4rhB17ge328HJuJjAcmRtCsGd+NDeAtahRBTaK6vSPR6MO5HlrAit3Nn7dVjaa6sowW0WXt8yQtLyZQFRg=="
+  "resolved" "https://registry.npmjs.org/date-format/-/date-format-4.0.4.tgz"
+  "version" "4.0.4"
+
 "debug@^2.2.0":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz"
@@ -815,6 +820,11 @@
     "repeat-string" "^1.6.1"
     "to-regex-range" "^2.1.0"
 
+"flatted@^3.2.5":
+  "integrity" "sha512-WIWGi2L3DyTUvUrwRKgGi9TwxQMUEqPOPQBVi71R96jZXJdFskXEmf54BoZaS1kknGODoIGASGEzBUYdyMCBJg=="
+  "resolved" "https://registry.npmjs.org/flatted/-/flatted-3.2.5.tgz"
+  "version" "3.2.5"
+
 "for-in@^1.0.2":
   "integrity" "sha1-gQaNKVqBQuwKxybG4iAMMPttXoA="
   "resolved" "https://registry.npmjs.org/for-in/-/for-in-1.0.2.tgz"
@@ -831,6 +841,15 @@
   "integrity" "sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac="
   "resolved" "https://registry.npmjs.org/fresh/-/fresh-0.5.2.tgz"
   "version" "0.5.2"
+
+"fs-extra@^10.0.1":
+  "integrity" "sha512-NbdoVMZso2Lsrn/QwLXOy6rm0ufY2zEOKCDzJR/0kBsb0E6qed0P3iYK+Ath3BfvXEeu4JhEtXLgILx5psUfag=="
+  "resolved" "https://registry.npmjs.org/fs-extra/-/fs-extra-10.0.1.tgz"
+  "version" "10.0.1"
+  dependencies:
+    "graceful-fs" "^4.2.0"
+    "jsonfile" "^6.0.1"
+    "universalify" "^2.0.0"
 
 "fs.realpath@^1.0.0":
   "integrity" "sha1-FQStJSMVjKpA20onh8sBQRmU6k8="
@@ -919,7 +938,7 @@
     "unzip-response" "^2.0.1"
     "url-parse-lax" "^1.0.0"
 
-"graceful-fs@^4.1.11", "graceful-fs@^4.1.2":
+"graceful-fs@^4.1.11", "graceful-fs@^4.1.2", "graceful-fs@^4.1.6", "graceful-fs@^4.2.0":
   "integrity" "sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ=="
   "resolved" "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.9.tgz"
   "version" "4.2.9"
@@ -1348,6 +1367,15 @@
   "resolved" "https://registry.npmjs.org/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz"
   "version" "5.0.1"
 
+"jsonfile@^6.0.1":
+  "integrity" "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ=="
+  "resolved" "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz"
+  "version" "6.1.0"
+  dependencies:
+    "universalify" "^2.0.0"
+  optionalDependencies:
+    "graceful-fs" "^4.1.6"
+
 "jsonwebtoken@^8.5.1":
   "integrity" "sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w=="
   "resolved" "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz"
@@ -1644,6 +1672,17 @@
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
+
+"log4js@^6.4.2":
+  "integrity" "sha512-k80cggS2sZQLBwllpT1p06GtfvzMmSdUCkW96f0Hj83rKGJDAu2vZjt9B9ag2vx8Zz1IXzxoLgqvRJCdMKybGg=="
+  "resolved" "https://registry.npmjs.org/log4js/-/log4js-6.4.2.tgz"
+  "version" "6.4.2"
+  dependencies:
+    "date-format" "^4.0.4"
+    "debug" "^4.3.3"
+    "flatted" "^3.2.5"
+    "rfdc" "^1.3.0"
+    "streamroller" "^3.0.4"
 
 "long@^4.0.0":
   "integrity" "sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA=="
@@ -2350,6 +2389,11 @@
   "resolved" "https://registry.npmjs.org/retry-as-promised/-/retry-as-promised-5.0.0.tgz"
   "version" "5.0.0"
 
+"rfdc@^1.3.0":
+  "integrity" "sha512-V2hovdzFbOi77/WajaSMXk2OLm+xNIeQdMMuB7icj7bk6zi2F8GGAxigcnDFpJHbNyNcgyJDiP+8nOrY5cZGrA=="
+  "resolved" "https://registry.npmjs.org/rfdc/-/rfdc-1.3.0.tgz"
+  "version" "1.3.0"
+
 "right-align@^0.1.1":
   "integrity" "sha1-YTObci/mo1FWiSENJOFMlhSGE+8="
   "resolved" "https://registry.npmjs.org/right-align/-/right-align-0.1.3.tgz"
@@ -2585,6 +2629,15 @@
     "json-stringify-safe" "5"
     "readable-stream" "2"
 
+"streamroller@^3.0.4":
+  "integrity" "sha512-GI9NzeD+D88UFuIlJkKNDH/IsuR+qIN7Qh8EsmhoRZr9bQoehTraRgwtLUkZbpcAw+hLPfHOypmppz8YyGK68w=="
+  "resolved" "https://registry.npmjs.org/streamroller/-/streamroller-3.0.4.tgz"
+  "version" "3.0.4"
+  dependencies:
+    "date-format" "^4.0.4"
+    "debug" "^4.3.3"
+    "fs-extra" "^10.0.1"
+
 "streamsearch@0.1.2":
   "integrity" "sha1-gIudDlb8Jz2Am6VzOOkpkZoanxo="
   "resolved" "https://registry.npmjs.org/streamsearch/-/streamsearch-0.1.2.tgz"
@@ -2776,6 +2829,11 @@
   "version" "1.0.0"
   dependencies:
     "crypto-random-string" "^1.0.0"
+
+"universalify@^2.0.0":
+  "integrity" "sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ=="
+  "resolved" "https://registry.npmjs.org/universalify/-/universalify-2.0.0.tgz"
+  "version" "2.0.0"
 
 "unpipe@1.0.0":
   "integrity" "sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw="
