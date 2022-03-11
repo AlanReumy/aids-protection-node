@@ -24,9 +24,7 @@ function loadHttpException() {
 }
 
 function loadConfig(path = "") {
-  /* eslint prefer-template: 0 */
   const configPath = path || process.cwd() + "/config/index.js";
-  /* eslint import/no-dynamic-require:0 */
   const config = require(configPath);
   global.config = config;
 }
