@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
   const Answer = sequelize.define(
-    "answers",
+    'answers',
     {
       title: Sequelize.STRING(100),
       content: Sequelize.STRING(1000),
@@ -14,24 +14,24 @@ module.exports = (sequelize, Sequelize) => {
       },
       userId: {
         type: Sequelize.INTEGER,
-        field: "user_id",
+        field: 'user_id',
         allowNull: false,
       },
       questionId: {
         type: Sequelize.INTEGER,
-        field: "question_id",
+        field: 'question_id',
         allowNull: false,
       },
     },
     {
       freezeTableName: false,
       timestamps: true,
-    }
-  );
+    },
+  )
 
   Answer.sync({
     force: false,
-  });
+  })
 
-  return Answer;
-};
+  return Answer
+}

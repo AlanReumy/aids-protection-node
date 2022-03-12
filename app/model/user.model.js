@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define(
-    "users",
+    'users',
     {
       username: {
         type: Sequelize.STRING(100),
@@ -17,12 +17,12 @@ module.exports = (sequelize, Sequelize) => {
     {
       freezeTableName: false,
       timestamps: true,
-    }
-  );
+    },
+  )
 
   User.sync({
     force: false,
-  });
+  })
 
-  return User;
-};
+  return User
+}

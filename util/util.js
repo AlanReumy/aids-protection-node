@@ -19,31 +19,31 @@ module.exports = {
    * @param { number } pageNum        每页数量
    * @param { number } pageSize       当前页码
    */
-  pager({ pageNum = 1, pageSize = 1 }) {
+  pager ({ pageNum = 1, pageSize = 1 }) {
     pageNum *= 1
     pageSize *= 1
     const skipIndex = (pageNum - 1) * pageSize      // 当前所翻页数
     return {
       page: {
         pageNum,
-        pageSize
+        pageSize,
       },
-      skipIndex
+      skipIndex,
     }
   },
 
   // 成功回调
-  success(data = '', msg = '', code = CODE.SUCCESS) {
+  success (data = '', msg = '', code = CODE.SUCCESS) {
     log4j.debug(data)
     return { code, data, msg }
   },
 
   // 失败回调
-  fail(data = '', msg = '', code = CODE > BUSINESS_ERROR) {
+  fail (data = '', msg = '', code = CODE > BUSINESS_ERROR) {
     log4j.debug(msg)
     return { code, data, msg }
   },
 
   // 把状态码暴露全局
-  CODE
+  CODE,
 }

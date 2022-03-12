@@ -5,7 +5,7 @@ const levels = {
   'info': log4j.levels.INFO,
   'warn': log4j.levels.WARN,
   'error': log4j.levels.ERROR,
-  'fatal': log4j.levels.FATAL
+  'fatal': log4j.levels.FATAL,
 }
 
 // log4j配置
@@ -14,29 +14,29 @@ log4j.configure({
     console: { type: 'console' },
     info: {
       type: 'file',
-      filename: 'logs/all-logs.log'
+      filename: 'logs/all-logs.log',
     },
     error: {
       type: 'dateFile',
       filename: 'logs/log',
       pattern: 'yyyy-MM-dd.log',
-      alwaysIncludePattern: true      // 设置文件名称为 filename + pattern
-    }
+      alwaysIncludePattern: true,      // 设置文件名称为 filename + pattern
+    },
   },
   categories: {
     default: {
       appenders: ['console'],
-      level: 'debug'
+      level: 'debug',
     },
     info: {
       appenders: ['info', 'console'],
-      level: 'info'
+      level: 'info',
     },
     error: {
       appenders: ['error', 'console'],
-      level: 'error'
-    }
-  }
+      level: 'error',
+    },
+  },
 })
 
 /**
