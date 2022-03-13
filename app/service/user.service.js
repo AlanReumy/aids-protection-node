@@ -5,85 +5,99 @@ const userController = require('../controller/user.controller')
 const { success, CODE, fail } = require('../../util/util')
 
 let router = new Router({
-  prefix: '/api/user',
+    prefix: '/api/user'
 })
 
 //注册
 router.post('/register', async (ctx) => {
-  let registerUser = ctx.request.body
-  const { username, isVolunteer, password, phone } = registerUser
-  await userController.create({ username, isVolunteer, password, phone }).
-    then((res) => {
-      ctx.body = success(res, '注册成功', CODE.SUCCESS)
-    }).
-    catch((err) => {
-      ctx.body = fail(err, '注册失败', CODE.BUSINESS_ERROR)
-    })
+    let registerUser = ctx.request.body
+    const { username, isVolunteer, password, phone } = registerUser
+    await userController
+        .create({ username, isVolunteer, password, phone })
+        .then((res) => {
+            ctx.body = success(res, '注册成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '注册失败', CODE.BUSINESS_ERROR)
+        })
 })
 
 //登录
 router.post('/login', async (ctx) => {
-  let loginUser = ctx.request.body
-  await userController.findOne({ username: loginUser.username }).then((res) => {
-    if (res && res.password === loginUser.password) {
-      ctx.body = success(res, '登录成功', CODE.SUCCESS)
-    } else {
-      ctx.body = fail(res, '密码错误', CODE.BUSINESS_ERROR)
-    }
-  }).catch((err) => {
-    ctx.body = fail(err, '登录失败', CODE.BUSINESS_ERROR)
-  })
+    let loginUser = ctx.request.body
+    await userController
+        .findOne({ username: loginUser.username })
+        .then((res) => {
+            if (res && res.password === loginUser.password) {
+                ctx.body = success(res, '登录成功', CODE.SUCCESS)
+            } else {
+                ctx.body = fail(res, '密码错误', CODE.BUSINESS_ERROR)
+            }
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '登录失败', CODE.BUSINESS_ERROR)
+        })
 })
 
 // 成为志愿者
 router.post('/bevolunteer', async (ctx) => {
-  let { userId } = ctx.request.body
-  await userController.update(userId, { isVolunteer: true }).then((res) => {
-    ctx.body = success(res, '操作成功', CODE.SUCCESS)
-  }).catch((err) => {
-    ctx.body = fail(err, '操作失败', CODE.BUSINESS_ERROR)
-  })
+    let { userId } = ctx.request.body
+    await userController
+        .update(userId, { isVolunteer: true })
+        .then((res) => {
+            ctx.body = success(res, '操作成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '操作失败', CODE.BUSINESS_ERROR)
+        })
 })
 
 // 上传用户头像
 router.post('/upload', upload.single('file'), async (ctx) => {
-  const avatar = (config.HOST + ctx.req.file.path).replace(/\\/g, '/')
-  ctx.body = new global.errs.Success({
-    info: avatar,
-    res: '操作成功',
-  })
+    const avatar = (config.HOST + ctx.req.file.path).replace(/\\/g, '/')
+    ctx.body = new global.errs.Success({
+        info: avatar,
+        res: '操作成功'
+    })
 })
 
 // 修改用户信息
 router.post('/update', async (ctx) => {
-  let payload = ctx.request.body
-  let { userId, username, password, phone } = payload
-  await userController.update(userId, { username, password, phone }).
-    then((res) => {
-      ctx.body = success(res, '更新成功', CODE.SUCCESS)
-    }).
-    catch((err) => {
-      ctx.body = fail(err, '更新失败', CODE.BUSINESS_ERROR)
-    })
+    let payload = ctx.request.body
+    let { userId, username, password, phone } = payload
+    await userController
+        .update(userId, { username, password, phone })
+        .then((res) => {
+            ctx.body = success(res, '更新成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '更新失败', CODE.BUSINESS_ERROR)
+        })
 })
 
 // 获取用户信息
 router.get('/info', async (ctx) => {
-  let { userId } = ctx.request.query
-  await userController.findOne({ id: userId }).then((res) => {
-    ctx.body = success(res, '查找成功', CODE.SUCCESS)
-  }).catch((err) => {
-    ctx.body = fail(err, '查找成功', CODE.BUSINESS_ERROR)
-  })
+    let { userId } = ctx.request.query
+    await userController
+        .findOne({ id: userId })
+        .then((res) => {
+            ctx.body = success(res, '查找成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '查找成功', CODE.BUSINESS_ERROR)
+        })
 })
 
 // 查看用户列表
 router.get('/list', async (ctx) => {
-  await userController.findAll().then((res) => {
-    ctx.body = success(res, '查找成功', CODE.SUCCESS)
-  }).catch((err) => {
-    ctx.body = fail(err, '查找失败', CODE.BUSINESS_ERROR)
-  })
+    await userController
+        .findAll()
+        .then((res) => {
+            ctx.body = success(res, '查找成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '查找失败', CODE.BUSINESS_ERROR)
+        })
 })
 
 module.exports = router

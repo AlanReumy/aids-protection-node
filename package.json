@@ -1,36 +1,50 @@
 {
-  "name": "aidsProtectionNodeJs",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "prd": "pm2 start bin/www",
-    "dev": "set NODE_ENV='development' && nodemon app.js",
-    "build": "export NODE_ENV='production' && node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "debug": "^4.1.1",
-    "jsonwebtoken": "^8.5.1",
-    "koa": "^2.7.0",
-    "koa-bodyparser": "^4.2.1",
-    "koa-convert": "^1.2.0",
-    "koa-cors": "^0.0.16",
-    "koa-json": "^2.0.2",
-    "koa-jwt": "^4.0.3",
-    "koa-logger": "^3.2.0",
-    "koa-multer": "^1.0.2",
-    "koa-onerror": "^4.1.0",
-    "koa-router": "^7.4.0",
-    "koa-static": "^5.0.0",
-    "koa-views": "^6.2.0",
-    "koa2-cors": "^2.0.6",
-    "log4js": "^6.4.2",
-    "mysql2": "^2.3.3",
-    "pug": "^2.0.3",
-    "require-directory": "^2.1.1",
-    "sequelize": "^6.17.0"
-  },
-  "devDependencies": {
-    "nodemon": "^1.19.1"
-  }
+    "name": "aidsProtectionNodeJs",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "prd": "pm2 start bin/www",
+        "dev": "set NODE_ENV='development' && nodemon ./app/app.js",
+        "build": "export NODE_ENV='production' && nodemon ./app/app.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prettier": "prettier --write .",
+        "commit": "npx cz"
+    },
+    "dependencies": {
+        "debug": "^4.1.1",
+        "jsonwebtoken": "^8.5.1",
+        "koa": "^2.7.0",
+        "koa-bodyparser": "^4.2.1",
+        "koa-convert": "^1.2.0",
+        "koa-cors": "^0.0.16",
+        "koa-json": "^2.0.2",
+        "koa-jwt": "^4.0.3",
+        "koa-logger": "^3.2.0",
+        "koa-multer": "^1.0.2",
+        "koa-onerror": "^4.1.0",
+        "koa-router": "^7.4.0",
+        "koa-static": "^5.0.0",
+        "koa-views": "^6.2.0",
+        "koa2-cors": "^2.0.6",
+        "log4js": "^6.4.2",
+        "mysql2": "^2.3.3",
+        "pug": "^2.0.3",
+        "require-directory": "^2.1.1",
+        "sequelize": "^6.17.0"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^16.2.1",
+        "@commitlint/config-conventional": "^16.2.1",
+        "cz-conventional-changelog": "^3.3.0",
+        "eslint": "^8.11.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "husky": "^7.0.4",
+        "nodemon": "^1.19.1",
+        "prettier": "^2.5.1"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
 }

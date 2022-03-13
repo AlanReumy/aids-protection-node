@@ -2,9 +2,9 @@ const db = require('../model')
 const Controller = require('./index')
 
 class VolunteerController extends Controller {
-  constructor (model) {
-    super(model)
-  }
+    constructor(model) {
+        super(model)
+    }
 }
 
 const volunteerController = new VolunteerController(db.volunteers)
