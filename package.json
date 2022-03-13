@@ -8,7 +8,8 @@
         "build": "export NODE_ENV='production' && nodemon ./app/app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "prettier": "prettier --write .",
-        "commit": "npx cz"
+        "commit": "npx cz",
+        "lint": "eslint --fix"
     },
     "dependencies": {
         "debug": "^4.1.1",
