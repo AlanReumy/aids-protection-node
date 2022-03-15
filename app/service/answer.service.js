@@ -35,11 +35,24 @@ router.get('/list', async (ctx) => {
     const { questionId } = ctx.request.query
     await answerController
         .findAllByInclude(users, { questionId })
-        .then(async (res) => {
+        .then((res) => {
             ctx.body = success(res, '查找成功', CODE.SUCCESS)
         })
         .catch((err) => {
             ctx.body = fail(err, '查找失败', CODE.BUSINESS_ERROR)
+        })
+})
+
+// update
+router.post('/update', async (ctx) => {
+    const { id, agree, disAgree } = ctx.request.body
+    await answerController
+        .update(id, { agree, disAgree })
+        .then((res) => {
+            ctx.body = success(res, '更新成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '更新失败', CODE.BUSINESS_ERROR)
         })
 })
 
