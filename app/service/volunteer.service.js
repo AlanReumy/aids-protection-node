@@ -33,6 +33,19 @@ router.get('/list', async (ctx) => {
         })
 })
 
+// list by user_id
+router.get('/list/user', async (ctx) => {
+    const { userId } = ctx.request.query
+    await volunteerController
+        .findListByUserId(userId)
+        .then((res) => {
+            ctx.body = success(res, '查找成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '查找失败', CODE.BUSINESS_ERROR)
+        })
+})
+
 // booking
 router.post('/booking', async (ctx) => {
     let payload = ctx.request.body
@@ -44,7 +57,7 @@ router.post('/booking', async (ctx) => {
         id: volunteerId
     })
     await volunteer
-        .setUsers(user)
+        .addUsers(user)
         .then((res) => {
             ctx.body = success(res, '预约成功', CODE.SUCCESS)
         })
