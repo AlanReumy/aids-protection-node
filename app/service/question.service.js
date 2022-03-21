@@ -40,7 +40,7 @@ router.get('/list', async (ctx) => {
 })
 
 // 根据用户id查询问题列表
-router.get('/list', async (ctx) => {
+router.get('/list/user', async (ctx) => {
     let { userId } = ctx.request.query
     await questionController
         .findAll({ user_id: userId })
