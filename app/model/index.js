@@ -82,4 +82,7 @@ db.comments.belongsTo(db.answers, {
     targetKey: 'id'
 })
 
+// 知识竞赛
+db.knowledgeGame = require('./knowledgeGame.model')(sequelize, Sequelize)
+
 module.exports = db
