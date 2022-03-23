@@ -2,6 +2,7 @@ const db = require('../model')
 const Router = require('koa-router')
 const { success, CODE, fail } = require('../../util/util')
 const knowledgeGameController = require('../controller/knowledgeGame.controller')
+const userController = require('../controller/user.controller')
 
 let router = new Router({
     prefix: '/api/knowledgeGame'
@@ -38,7 +39,7 @@ router.get('/list', async (ctx) => {
 
 // finish
 router.post('/finish', async (ctx) => {
-    let { id, correct, wrong } = ctx.request.body
+    let { id, correct, wrong, userId } = ctx.request.body
     const item = await knowledgeGameController.findOne({ id })
     item.dataValues.finishNum += 1
     await knowledgeGameController
@@ -46,6 +47,14 @@ router.post('/finish', async (ctx) => {
             correct,
             wrong,
             finishNum: item.dataValues.finishNum
+        })
+        .then(async (res) => {
+            return await userController.findOne({ id: userId })
+        })
+        .then(async (user) => {
+            return await userController.update(userId, {
+                integral: user.dataValues.integral + 5
+            })
         })
         .then((res) => {
             ctx.body = success(res, '答题成功', CODE.SUCCESS)

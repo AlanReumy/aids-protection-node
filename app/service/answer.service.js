@@ -2,6 +2,7 @@ const db = require('../model')
 const Router = require('koa-router')
 const { success, CODE, fail } = require('../../util/util')
 const answerController = require('../controller/answer.controller')
+const userController = require('../controller/user.controller')
 
 let router = new Router({
     prefix: '/api/answer'
@@ -21,6 +22,14 @@ router.post('/create', async (ctx) => {
             disAgree,
             userId,
             questionId
+        })
+        .then(async (res) => {
+            return await userController.findOne({ id: userId })
+        })
+        .then(async (user) => {
+            return await userController.update(userId, {
+                integral: user.dataValues.integral + 5
+            })
         })
         .then((res) => {
             ctx.body = success(res, '创建成功', CODE.SUCCESS)

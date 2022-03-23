@@ -58,6 +58,11 @@ router.post('/booking', async (ctx) => {
     })
     await volunteer
         .addUsers(user)
+        .then(async (res) => {
+            return await userController.update(userId, {
+                integral: user.dataValues.integral + 10
+            })
+        })
         .then((res) => {
             ctx.body = success(res, '预约成功', CODE.SUCCESS)
         })
