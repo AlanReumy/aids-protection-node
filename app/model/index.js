@@ -84,5 +84,7 @@ db.comments.belongsTo(db.answers, {
 
 // 知识竞赛
 db.knowledgeGame = require('./knowledgeGame.model')(sequelize, Sequelize)
+// 积分系统
+db.exchangeItem = require('./exchangeItem.model')(sequelize, Sequelize)
 
 module.exports = db
