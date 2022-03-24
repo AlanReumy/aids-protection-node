@@ -86,5 +86,16 @@ db.comments.belongsTo(db.answers, {
 db.knowledgeGame = require('./knowledgeGame.model')(sequelize, Sequelize)
 // 积分系统
 db.exchangeItem = require('./exchangeItem.model')(sequelize, Sequelize)
+// 咨询医生
+db.consultant = require('./consultant.model')(sequelize, Sequelize)
+
+db.users.hasMany(db.consultant, {
+    foreignKey: 'userId',
+    sourceKey: 'id'
+})
+db.consultant.belongsTo(db.users, {
+    foreignKey: 'userId',
+    targetKey: 'id'
+})
 
 module.exports = db
