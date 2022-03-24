@@ -4,6 +4,7 @@ module.exports = (sequelize, Sequelize) => {
         {
             name: Sequelize.STRING(100),
             img: Sequelize.STRING(200),
+            count: Sequelize.INTEGER,
             integral: Sequelize.INTEGER
         },
         {

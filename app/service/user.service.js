@@ -64,9 +64,9 @@ router.post('/upload', upload.single('file'), async (ctx) => {
 // 修改用户信息
 router.post('/update', async (ctx) => {
     let payload = ctx.request.body
-    let { userId, username, password, phone } = payload
+    let { userId, username, password, phone, integral } = payload
     await userController
-        .update(userId, { username, password, phone })
+        .update(userId, { username, password, phone, integral })
         .then((res) => {
             ctx.body = success(res, '更新成功', CODE.SUCCESS)
         })

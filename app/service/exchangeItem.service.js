@@ -9,12 +9,13 @@ let router = new Router({
 
 // create
 router.post('/create', async (ctx) => {
-    const { name, integral, img } = ctx.request.body
+    const { name, integral, img, count } = ctx.request.body
     await exchangeItemController
         .create({
             name,
             img,
-            integral
+            integral,
+            count
         })
         .then((res) => {
             ctx.body = success(res, '创建成功', CODE.SUCCESS)
@@ -37,12 +38,19 @@ router.post('/exchange', async (ctx) => {
         .then(async (user) => {
             let res =
                 user.dataValues.integral - exchangeItem.dataValues.integral
-            if (res <= 0) {
+            if (res < 0) {
                 throw new Error('error')
             }
+            // 减少用户积分
             return await userController.update(userId, {
                 integral:
                     user.dataValues.integral - exchangeItem.dataValues.integral
+            })
+        })
+        .then(async (res) => {
+            // 减少数量
+            return await exchangeItemController.update(id, {
+                count: --exchangeItem.dataValues.count
             })
         })
         .then((res) => {
