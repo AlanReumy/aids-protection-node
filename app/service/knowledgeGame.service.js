@@ -15,7 +15,8 @@ router.post('/create', async (ctx) => {
     await knowledgeGameController
         .create({
             name,
-            personNum
+            personNum,
+            finishNum: 0
         })
         .then((res) => {
             ctx.body = success(res, '创建成功', CODE.SUCCESS)
@@ -43,10 +44,21 @@ router.post('/finish', async (ctx) => {
     const item = await knowledgeGameController.findOne({ id })
     item.dataValues.finishNum += 1
     await knowledgeGameController
-        .update(id, {
-            correct,
-            wrong,
-            finishNum: item.dataValues.finishNum
+        .findOne({ id })
+        .then(async (res) => {
+            return await knowledgeGameController.update(id, {
+                correct:
+                    parseInt(
+                        res.dataValues.correct === null
+                            ? 0
+                            : res.dataValues.correct
+                    ) + parseInt(correct),
+                wrong:
+                    parseInt(
+                        res.dataValues.wrong === null ? 0 : res.dataValues.wrong
+                    ) + parseInt(wrong),
+                finishNum: parseInt(res.dataValues.finishNum) + 1
+            })
         })
         .then(async (res) => {
             return await userController.findOne({ id: userId })
