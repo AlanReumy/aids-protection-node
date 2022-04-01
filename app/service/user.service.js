@@ -102,7 +102,7 @@ router.post('/upload', upload.single('file'), async (ctx) => {
 router.post('/update', async (ctx) => {
     let payload = ctx.request.body
     let {
-        userId,
+        id,
         username,
         password,
         phone,
@@ -113,7 +113,7 @@ router.post('/update', async (ctx) => {
         avatar
     } = payload
     await userController
-        .update(userId, {
+        .update(id, {
             username,
             password,
             phone,

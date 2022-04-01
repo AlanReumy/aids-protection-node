@@ -61,4 +61,16 @@ router.post('/exchange', async (ctx) => {
         })
 })
 
+// list
+router.get('/list', async (ctx) => {
+    await exchangeItemController
+        .findAll()
+        .then((res) => {
+            ctx.body = success(res, '查询成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '查询失败', CODE.BUSINESS_ERROR)
+        })
+})
+
 module.exports = router

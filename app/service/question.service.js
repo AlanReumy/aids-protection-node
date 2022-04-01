@@ -52,4 +52,17 @@ router.get('/list/user', async (ctx) => {
         })
 })
 
+// 删除
+router.delete('/delete', async (ctx) => {
+    let { id } = ctx.request.body
+    await questionController
+        .delete(id)
+        .then((res) => {
+            ctx.body = success(res, '删除成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '删除失败', CODE.BUSINESS_ERROR)
+        })
+})
+
 module.exports = router

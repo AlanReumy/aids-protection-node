@@ -23,7 +23,7 @@ router.post('/create', async (ctx) => {
             userId,
             questionId
         })
-        .then(async (res) => {
+        .then(async () => {
             return await userController.findOne({ id: userId })
         })
         .then(async (user) => {
