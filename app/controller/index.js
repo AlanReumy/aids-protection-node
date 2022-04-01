@@ -59,6 +59,7 @@ class Controller {
      * @returns 1
      */
     update(id, info) {
+        console.log(id, info)
         return this.model.update(
             {
                 ...info
@@ -77,7 +78,7 @@ class Controller {
      * @returns 1
      */
     delete(id) {
-        return this.model.delete({
+        return this.model.destroy({
             where: {
                 id
             }

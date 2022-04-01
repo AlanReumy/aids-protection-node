@@ -22,6 +22,35 @@ router.post('/register', async (ctx) => {
         })
 })
 
+// 创建用户
+router.post('/create', async (ctx) => {
+    const {
+        username,
+        password,
+        phone,
+        isVolunteer,
+        isDoctor,
+        isPatient,
+        integral
+    } = ctx.request.body
+    await userController
+        .create({
+            username,
+            isVolunteer,
+            password,
+            phone,
+            isDoctor,
+            isPatient,
+            integral
+        })
+        .then((res) => {
+            ctx.body = success(res, '注册成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '注册失败', CODE.BUSINESS_ERROR)
+        })
+})
+
 //登录
 router.post('/login', async (ctx) => {
     let loginUser = ctx.request.body
@@ -64,9 +93,28 @@ router.post('/upload', upload.single('file'), async (ctx) => {
 // 修改用户信息
 router.post('/update', async (ctx) => {
     let payload = ctx.request.body
-    let { userId, username, password, phone, integral } = payload
+    let {
+        userId,
+        username,
+        password,
+        phone,
+        integral,
+        isVolunteer,
+        isPatient,
+        isDoctor,
+        avatar
+    } = payload
     await userController
-        .update(userId, { username, password, phone, integral })
+        .update(userId, {
+            username,
+            password,
+            phone,
+            integral,
+            isVolunteer,
+            isPatient,
+            isDoctor,
+            avatar
+        })
         .then((res) => {
             ctx.body = success(res, '更新成功', CODE.SUCCESS)
         })
@@ -97,6 +145,19 @@ router.get('/list', async (ctx) => {
         })
         .catch((err) => {
             ctx.body = fail(err, '查找失败', CODE.BUSINESS_ERROR)
+        })
+})
+
+// 删除单个用户
+router.delete('/delete', async (ctx) => {
+    let { id } = ctx.request.body
+    await userController
+        .delete(id)
+        .then((res) => {
+            ctx.body = success(res, '删除成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '删除失败', CODE.BUSINESS_ERROR)
         })
 })
 
