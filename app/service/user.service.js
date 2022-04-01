@@ -11,9 +11,17 @@ let router = new Router({
 //注册
 router.post('/register', async (ctx) => {
     let registerUser = ctx.request.body
-    const { username, isVolunteer, password, phone } = registerUser
+    const { username, password, phone } = registerUser
     await userController
-        .create({ username, isVolunteer, password, phone })
+        .create({
+            username,
+            password,
+            phone,
+            isVolunteer: false,
+            isPatient: false,
+            isDoctor: false,
+            integral: 0
+        })
         .then((res) => {
             ctx.body = success(res, '注册成功', CODE.SUCCESS)
         })
