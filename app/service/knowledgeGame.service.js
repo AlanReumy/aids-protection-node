@@ -88,4 +88,35 @@ router.get('/', async (ctx) => {
         })
 })
 
+// 删除
+router.delete('/delete', async (ctx) => {
+    let { id } = ctx.request.body
+    await knowledgeGameController
+        .delete(id)
+        .then((res) => {
+            ctx.body = success(res, '删除成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '删除失败', CODE.BUSINESS_ERROR)
+        })
+})
+
+// 更新竞赛
+router.post('/update', async (ctx) => {
+    let { id, correct, name, personNum, finishNum } = ctx.request.body
+    await knowledgeGameController
+        .update(id, {
+            correct,
+            name,
+            personNum,
+            finishNum
+        })
+        .then((res) => {
+            ctx.body = success(res, '更新成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '更新失败', CODE.BUSINESS_ERROR)
+        })
+})
+
 module.exports = router
