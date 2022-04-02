@@ -4,9 +4,14 @@ const log4j = require('../util/log4j')
 const Parser = require('koa-bodyparser')
 const cors = require('koa2-cors')
 const initApp = require('../util/init')
+const koajwt = require('koa-jwt')
+const SECRET = 'aids-protection'
+// jwt密钥
+module.exports = {
+    SECRET
+}
 
 app.use(Parser())
-
 app.use(async (ctx, next) => {
     log4j.info(`get: ${JSON.stringify(ctx.request.query)}`) // 监听get请求
     log4j.info(`params: ${JSON.stringify(ctx.request.body)}`) // 监听post请求
@@ -15,7 +20,6 @@ app.use(async (ctx, next) => {
     const ms = new Date() - start
     console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
-
 app.use(require('koa-static')(__dirname + '/public'))
 
 //配置 cors 的中间件
@@ -33,6 +37,28 @@ app.use(
         allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
         // 设置获取其他自定义字段
         exposeHeaders: ['WWW-Authenticate', 'Server-Authorization']
+    })
+)
+
+// jwt验证
+// 中间件对token进行验证
+app.use(async (ctx, next) => {
+    return next().catch((err) => {
+        if (err.status === 401) {
+            ctx.status = 401
+            ctx.body = {
+                code: 401,
+                msg: err.message
+            }
+        } else {
+            throw err
+        }
+    })
+})
+
+app.use(
+    koajwt({ secret: SECRET }).unless({
+        path: [/^\/api\/user\/login/, /^\/api\/user\/register/]
     })
 )
 

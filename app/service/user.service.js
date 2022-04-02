@@ -3,6 +3,9 @@ const upload = require('../../util/upload')
 const config = require('../../config')
 const userController = require('../controller/user.controller')
 const { success, CODE, fail } = require('../../util/util')
+const { SECRET } = require('../app')
+const jsonwebtoken = require('jsonwebtoken')
+const tokenVerify = require('../../util/tokenVerify')
 
 let router = new Router({
     prefix: '/api/user'
@@ -52,6 +55,7 @@ router.post('/create', async (ctx) => {
             integral
         })
         .then((res) => {
+            console.log(res)
             ctx.body = success(res, '注册成功', CODE.SUCCESS)
         })
         .catch((err) => {
@@ -66,7 +70,18 @@ router.post('/login', async (ctx) => {
         .findOne({ username: loginUser.username })
         .then((res) => {
             if (res && res.password === loginUser.password) {
-                ctx.body = success(res, '登录成功', CODE.SUCCESS)
+                ctx.body = success(
+                    {
+                        userInfo: res,
+                        token: jsonwebtoken.sign(
+                            { name: res.username, id: res.id },
+                            SECRET,
+                            { expiresIn: '10000h' }
+                        )
+                    },
+                    '登录成功',
+                    CODE.SUCCESS
+                )
             } else {
                 ctx.body = fail(res, '密码错误', CODE.BUSINESS_ERROR)
             }
@@ -78,7 +93,7 @@ router.post('/login', async (ctx) => {
 
 // 成为志愿者
 router.post('/bevolunteer', async (ctx) => {
-    let { userId } = ctx.request.body
+    const userId = tokenVerify(ctx)
     await userController
         .update(userId, { isVolunteer: true })
         .then((res) => {
@@ -100,9 +115,8 @@ router.post('/upload', upload.single('file'), async (ctx) => {
 
 // 修改用户信息
 router.post('/update', async (ctx) => {
-    let payload = ctx.request.body
+    const id = tokenVerify(ctx)
     let {
-        id,
         username,
         password,
         phone,
@@ -111,7 +125,7 @@ router.post('/update', async (ctx) => {
         isPatient,
         isDoctor,
         avatar
-    } = payload
+    } = ctx.request.body
     await userController
         .update(id, {
             username,
@@ -133,9 +147,9 @@ router.post('/update', async (ctx) => {
 
 // 获取用户信息
 router.get('/info', async (ctx) => {
-    let { userId } = ctx.request.query
+    const id = tokenVerify(ctx)
     await userController
-        .findOne({ id: userId })
+        .findOne({ id })
         .then((res) => {
             ctx.body = success(res, '查找成功', CODE.SUCCESS)
         })
@@ -158,7 +172,7 @@ router.get('/list', async (ctx) => {
 
 // 删除单个用户
 router.delete('/delete', async (ctx) => {
-    let { id } = ctx.request.body
+    const id = tokenVerify(ctx)
     await userController
         .delete(id)
         .then((res) => {
