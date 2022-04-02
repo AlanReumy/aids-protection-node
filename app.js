@@ -79,7 +79,7 @@ app.use(
             /^\/api\/user\/login/,
             /^\/api\/user\/register/,
             /^\/public/,
-            /^\/api\/user\/upload/
+            /^\/api\/upload/
         ]
     })
 )
