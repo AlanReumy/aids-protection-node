@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken')
-const { SECRET } = require('../app/app')
+const { SECRET } = require('../app')
 
 // 根据token解析用户id
 const tokenVerify = (ctx) => {

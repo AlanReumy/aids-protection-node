@@ -1,10 +1,14 @@
 const Koa = require('koa')
 const app = new Koa()
-const log4j = require('../util/log4j')
+const log4j = require('./util/log4j')
 const Parser = require('koa-bodyparser')
 const cors = require('koa2-cors')
-const initApp = require('../util/init')
+const initApp = require('./util/init')
+const koaBody = require('koa-body')
 const koajwt = require('koa-jwt')
+const mime = require('mime-types')
+const path = require('path')
+const fs = require('fs')
 const SECRET = 'aids-protection'
 // jwt密钥
 module.exports = {
@@ -20,6 +24,7 @@ app.use(async (ctx, next) => {
     const ms = new Date() - start
     console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
+app.use(koaBody({ multipart: true }))
 app.use(require('koa-static')(__dirname + '/public'))
 
 //配置 cors 的中间件
@@ -58,9 +63,25 @@ app.use(async (ctx, next) => {
 
 app.use(
     koajwt({ secret: SECRET }).unless({
-        path: [/^\/api\/user\/login/, /^\/api\/user\/register/]
+        path: [/^\/api\/user\/login/, /^\/api\/user\/register/, /^\/public/]
     })
 )
+
+app.use(async (ctx) => {
+    let filePath = path.join(__dirname, ctx.url) //图片地址
+    let file = null
+    try {
+        file = fs.readFileSync(filePath) //读取文件
+    } catch (error) {
+        //如果服务器不存在请求的图片，返回默认图片
+        filePath = path.join(__dirname, '../public/demo.png') //默认图片地址
+        file = fs.readFileSync(filePath) //读取文件
+    }
+
+    let mimeType = mime.lookup(filePath) //读取图片文件类型
+    ctx.set('content-type', mimeType) //设置返回类型
+    ctx.body = file //返回图片
+})
 
 // 初始化app
 initApp(app)
