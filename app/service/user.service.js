@@ -1,15 +1,10 @@
 const Router = require('koa-router')
-const upload = require('../../util/upload')
-const config = require('../../config')
 const userController = require('../controller/user.controller')
 const { success, CODE, fail } = require('../../util/util')
 const { SECRET } = require('../../app')
 const jsonwebtoken = require('jsonwebtoken')
 const tokenVerify = require('../../util/tokenVerify')
 const { genSign, deSign } = require('../../util/crypto')
-const mime = require('mime-types')
-const path = require('path')
-const fs = require('fs')
 
 let router = new Router({
     prefix: '/api/user'
