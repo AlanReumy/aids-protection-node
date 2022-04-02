@@ -148,6 +148,39 @@ router.post('/update', async (ctx) => {
         })
 })
 
+// 管理员用户信息
+router.post('/admin/update', async (ctx) => {
+    const { id } = ctx.request.body
+    let {
+        username,
+        password,
+        phone,
+        integral,
+        isVolunteer,
+        isPatient,
+        isDoctor,
+        avatar
+    } = ctx.request.body
+    password = genSign(password)
+    await userController
+        .update(id, {
+            username,
+            password,
+            phone,
+            integral,
+            isVolunteer,
+            isPatient,
+            isDoctor,
+            avatar
+        })
+        .then((res) => {
+            ctx.body = success(res, '更新成功', CODE.SUCCESS)
+        })
+        .catch((err) => {
+            ctx.body = fail(err, '更新失败', CODE.BUSINESS_ERROR)
+        })
+})
+
 // 获取用户信息
 router.get('/info', async (ctx) => {
     const id = tokenVerify(ctx)
@@ -168,6 +201,10 @@ router.get('/list', async (ctx) => {
     await userController
         .findAll()
         .then((res) => {
+            res.map((item) => {
+                item.dataValues.password = deSign(item.password)
+            })
+            console.log(res)
             ctx.body = success(res, '查找成功', CODE.SUCCESS)
         })
         .catch((err) => {
