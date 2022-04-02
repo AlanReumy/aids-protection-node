@@ -7,6 +7,9 @@ const { SECRET } = require('../../app')
 const jsonwebtoken = require('jsonwebtoken')
 const tokenVerify = require('../../util/tokenVerify')
 const { genSign, deSign } = require('../../util/crypto')
+const mime = require('mime-types')
+const path = require('path')
+const fs = require('fs')
 
 let router = new Router({
     prefix: '/api/user'
@@ -108,12 +111,12 @@ router.post('/bevolunteer', async (ctx) => {
 })
 
 // 上传用户头像
-router.post('/upload', upload.single('file'), async (ctx) => {
-    const avatar = (config.HOST + ctx.req.file.path).replace(/\\/g, '/')
-    ctx.body = new global.errs.Success({
-        info: avatar,
-        res: '操作成功'
-    })
+router.post('/upload', async (ctx) => {
+    ctx.body = success(
+        { avatar: ctx.request.files.file.path },
+        '上传成功',
+        CODE.SUCCESS
+    )
 })
 
 // 修改用户信息

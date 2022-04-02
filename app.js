@@ -1,21 +1,33 @@
 const Koa = require('koa')
 const app = new Koa()
 const log4j = require('./util/log4j')
-const Parser = require('koa-bodyparser')
 const cors = require('koa2-cors')
 const initApp = require('./util/init')
 const koaBody = require('koa-body')
 const koajwt = require('koa-jwt')
-const mime = require('mime-types')
 const path = require('path')
-const fs = require('fs')
+
 const SECRET = 'aids-protection'
 // jwt密钥
 module.exports = {
     SECRET
 }
 
-app.use(Parser())
+app.use(
+    koaBody({
+        multipart: true, // 支持文件上传
+        formidable: {
+            uploadDir: path.join(__dirname, 'public/upload/'), // 设置文件上传目录
+            keepExtensions: true, // 保持文件的后缀
+            maxFieldsSize: 2 * 1024 * 1024, // 文件上传大小
+            onFileBegin: (name, file) => {
+                // 文件上传前的设置
+                console.log(`name: ${name}`)
+                console.log(file)
+            }
+        }
+    })
+)
 app.use(async (ctx, next) => {
     log4j.info(`get: ${JSON.stringify(ctx.request.query)}`) // 监听get请求
     log4j.info(`params: ${JSON.stringify(ctx.request.body)}`) // 监听post请求
@@ -24,7 +36,7 @@ app.use(async (ctx, next) => {
     const ms = new Date() - start
     console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
-app.use(koaBody({ multipart: true }))
+
 app.use(require('koa-static')(__dirname + '/public'))
 
 //配置 cors 的中间件
@@ -63,25 +75,14 @@ app.use(async (ctx, next) => {
 
 app.use(
     koajwt({ secret: SECRET }).unless({
-        path: [/^\/api\/user\/login/, /^\/api\/user\/register/, /^\/public/]
+        path: [
+            /^\/api\/user\/login/,
+            /^\/api\/user\/register/,
+            /^\/public/,
+            /^\/api\/user\/upload/
+        ]
     })
 )
-
-app.use(async (ctx) => {
-    let filePath = path.join(__dirname, ctx.url) //图片地址
-    let file = null
-    try {
-        file = fs.readFileSync(filePath) //读取文件
-    } catch (error) {
-        //如果服务器不存在请求的图片，返回默认图片
-        filePath = path.join(__dirname, '../public/demo.png') //默认图片地址
-        file = fs.readFileSync(filePath) //读取文件
-    }
-
-    let mimeType = mime.lookup(filePath) //读取图片文件类型
-    ctx.set('content-type', mimeType) //设置返回类型
-    ctx.body = file //返回图片
-})
 
 // 初始化app
 initApp(app)
