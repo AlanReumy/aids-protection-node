@@ -2,6 +2,7 @@ const Router = require('koa-router')
 const { success, CODE, fail } = require('../../util/util')
 const volunteerController = require('../controller/volunteer.controller')
 const userController = require('../controller/user.controller')
+const tokenVerify = require('../../util/tokenVerify')
 
 let router = new Router({
     prefix: '/api/volunteer'
@@ -9,8 +10,7 @@ let router = new Router({
 
 // create
 router.post('/create', async (ctx) => {
-    let payload = ctx.request.body
-    const { title, desc, startDate, endDate } = payload
+    const { title, desc, startDate, endDate } = ctx.request.body
     await volunteerController
         .create({ title, desc, startDate, endDate })
         .then((res) => {
@@ -48,8 +48,8 @@ router.get('/list/user', async (ctx) => {
 
 // booking
 router.post('/booking', async (ctx) => {
-    let payload = ctx.request.body
-    const { userId, volunteerId } = payload
+    const userId = tokenVerify(ctx)
+    const { volunteerId } = ctx.request.body
     const user = await userController.findOne({
         id: userId
     })

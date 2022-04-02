@@ -2,6 +2,7 @@ const db = require('../model')
 const Router = require('koa-router')
 const { success, CODE, fail } = require('../../util/util')
 const questionController = require('../controller/question.controller')
+const tokenVerify = require('../../util/tokenVerify')
 
 let router = new Router({
     prefix: '/api/question'
@@ -11,8 +12,8 @@ let { users } = db
 
 // 创建问题
 router.post('/create', async (ctx) => {
-    let payload = ctx.request.body
-    const { title, desc, userId } = payload
+    const userId = tokenVerify(ctx)
+    const { title, desc } = ctx.request.body
     await questionController
         .create({
             title,

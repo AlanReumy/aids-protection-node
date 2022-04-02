@@ -3,6 +3,7 @@ const Router = require('koa-router')
 const { success, CODE, fail } = require('../../util/util')
 const knowledgeGameController = require('../controller/knowledgeGame.controller')
 const userController = require('../controller/user.controller')
+const tokenVerify = require('../../util/tokenVerify')
 
 let router = new Router({
     prefix: '/api/knowledgeGame'
@@ -10,8 +11,7 @@ let router = new Router({
 
 // create
 router.post('/create', async (ctx) => {
-    let payload = ctx.request.body
-    const { name, personNum } = payload
+    const { name, personNum } = ctx.request.body
     await knowledgeGameController
         .create({
             name,
@@ -40,7 +40,8 @@ router.get('/list', async (ctx) => {
 
 // finish
 router.post('/finish', async (ctx) => {
-    let { id, correct, wrong, userId } = ctx.request.body
+    const userId = tokenVerify(ctx)
+    let { id, correct, wrong } = ctx.request.body
     const item = await knowledgeGameController.findOne({ id })
     item.dataValues.finishNum += 1
     await knowledgeGameController
@@ -60,7 +61,7 @@ router.post('/finish', async (ctx) => {
                 finishNum: parseInt(res.dataValues.finishNum) + 1
             })
         })
-        .then(async (res) => {
+        .then(async () => {
             return await userController.findOne({ id: userId })
         })
         .then(async (user) => {
@@ -76,6 +77,7 @@ router.post('/finish', async (ctx) => {
         })
 })
 
+// query
 router.get('/', async (ctx) => {
     let { id } = ctx.request.query
     await knowledgeGameController

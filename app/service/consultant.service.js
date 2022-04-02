@@ -1,4 +1,5 @@
 const Router = require('koa-router')
+const tokenVerify = require('../../util/tokenVerify')
 const { success, CODE, fail } = require('../../util/util')
 const consultantController = require('../controller/consultant.controller')
 
@@ -8,7 +9,8 @@ let router = new Router({
 
 // create
 router.post('/create', async (ctx) => {
-    const { cQuestion, userId, sex, age, symptom } = ctx.request.body
+    const userId = tokenVerify(ctx)
+    const { cQuestion, sex, age, symptom } = ctx.request.body
     await consultantController
         .create({
             cQuestion,

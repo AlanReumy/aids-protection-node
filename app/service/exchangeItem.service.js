@@ -2,6 +2,7 @@ const Router = require('koa-router')
 const { success, CODE, fail } = require('../../util/util')
 const exchangeItemController = require('../controller/exchangeItem.controller')
 const userController = require('../controller/user.controller')
+const tokenVerify = require('../../util/tokenVerify')
 
 let router = new Router({
     prefix: '/api/exchangeItem'
@@ -27,7 +28,8 @@ router.post('/create', async (ctx) => {
 
 // update
 router.post('/exchange', async (ctx) => {
-    const { id, userId } = ctx.request.body
+    const userId = tokenVerify(ctx)
+    const { id } = ctx.request.body
     let exchangeItem
     await exchangeItemController
         .findOne({ id })
