@@ -6,6 +6,7 @@ const { success, CODE, fail } = require('../../util/util')
 const { SECRET } = require('../app')
 const jsonwebtoken = require('jsonwebtoken')
 const tokenVerify = require('../../util/tokenVerify')
+const { genSign, deSign } = require('../../util/crypto')
 
 let router = new Router({
     prefix: '/api/user'
@@ -14,7 +15,8 @@ let router = new Router({
 //注册
 router.post('/register', async (ctx) => {
     let registerUser = ctx.request.body
-    const { username, password, phone } = registerUser
+    let { username, password, phone } = registerUser
+    password = genSign(password)
     await userController
         .create({
             username,
@@ -66,10 +68,11 @@ router.post('/create', async (ctx) => {
 //登录
 router.post('/login', async (ctx) => {
     let loginUser = ctx.request.body
+    const password = genSign(loginUser.password)
     await userController
         .findOne({ username: loginUser.username })
         .then((res) => {
-            if (res && res.password === loginUser.password) {
+            if (res && res.password === password) {
                 ctx.body = success(
                     {
                         userInfo: res,
@@ -126,6 +129,7 @@ router.post('/update', async (ctx) => {
         isDoctor,
         avatar
     } = ctx.request.body
+    password = genSign(password)
     await userController
         .update(id, {
             username,
@@ -151,6 +155,8 @@ router.get('/info', async (ctx) => {
     await userController
         .findOne({ id })
         .then((res) => {
+            // 解密
+            res.dataValues.password = deSign(res.dataValues.password)
             ctx.body = success(res, '查找成功', CODE.SUCCESS)
         })
         .catch((err) => {
