@@ -71,6 +71,7 @@ router.post('/login', async (ctx) => {
         .findOne({ username: loginUser.username })
         .then((res) => {
             if (res && res.password === password) {
+                res.dataValues.password = loginUser.password
                 ctx.body = success(
                     {
                         userInfo: res,
