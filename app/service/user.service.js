@@ -172,7 +172,7 @@ router.get('/list', async (ctx) => {
 
 // 删除单个用户
 router.delete('/delete', async (ctx) => {
-    const id = tokenVerify(ctx)
+    let { id } = ctx.request.body
     await userController
         .delete(id)
         .then((res) => {
