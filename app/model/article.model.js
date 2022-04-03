@@ -3,7 +3,8 @@ module.exports = (sequelize, Sequelize) => {
         'articles',
         {
             title: Sequelize.STRING(100),
-            content: Sequelize.STRING(100)
+            content: Sequelize.STRING(100),
+            type: Sequelize.INTEGER
         },
         {
             freezeTableName: false,
