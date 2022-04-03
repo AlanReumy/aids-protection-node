@@ -16,7 +16,9 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
+// 用户
 db.users = require('./user.model')(sequelize, Sequelize)
+// 志愿服务
 db.volunteers = require('./volunteer.model')(sequelize, Sequelize)
 db.volunteerUser = require('./volunteer_user.model')(
     sequelize,
@@ -25,8 +27,11 @@ db.volunteerUser = require('./volunteer_user.model')(
     db.volunteers
 )
 
+// 问题
 db.questions = require('./question.model')(sequelize, Sequelize)
+// 问题
 db.answers = require('./answer.model')(sequelize, Sequelize)
+// 评论
 db.comments = require('./comment.model')(sequelize, Sequelize)
 
 db.users.belongsToMany(db.volunteers, { through: db.volunteerUser })
@@ -97,5 +102,8 @@ db.consultant.belongsTo(db.users, {
     foreignKey: 'userId',
     targetKey: 'id'
 })
+
+// 文章
+db.article = require('./article.model')(sequelize, Sequelize)
 
 module.exports = db
