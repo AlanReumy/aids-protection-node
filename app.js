@@ -5,6 +5,7 @@ const cors = require('koa2-cors')
 const initApp = require('./util/init')
 const koaBody = require('koa-body')
 const koajwt = require('koa-jwt')
+const parser = require('koa-bodyparser')
 const path = require('path')
 
 // jwt密钥
@@ -13,7 +14,7 @@ const SECRET = 'aids-protection'
 module.exports = {
     SECRET
 }
-
+app.use(parser())
 // app.use(
 //     koaBody({
 //         multipart: true, // 支持文件上传
