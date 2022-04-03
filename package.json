@@ -12,7 +12,9 @@
         "lint": "eslint --fix"
     },
     "dependencies": {
+        "ali-oss": "^6.17.1",
         "debug": "^4.1.1",
+        "formidable": "^2.0.1",
         "jsonwebtoken": "^8.5.1",
         "koa": "^2.7.0",
         "koa-body": "^4.2.0",
@@ -38,6 +40,7 @@
     "devDependencies": {
         "@commitlint/cli": "^16.2.1",
         "@commitlint/config-conventional": "^16.2.1",
+        "co": "^4.6.0",
         "cz-conventional-changelog": "^3.3.0",
         "eslint": "^8.11.0",
         "eslint-plugin-prettier": "^4.0.0",
