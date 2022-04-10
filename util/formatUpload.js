@@ -3,7 +3,7 @@ const formatUpload = (ctx) => {
         images: ctx.host + '\\' + ctx.req.file.path
     }
     res.images = res.images
-        .replaceAll(new RegExp('\\\\', 'g'), '/')
+        .replace(new RegExp('\\\\', 'g'), '/')
         .replace('/public', '')
     return res
 }
