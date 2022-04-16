@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const KnowledgeGame = sequelize.define(
+    return sequelize.define(
         'knowLedgeGame',
         {
             name: Sequelize.STRING(100),
@@ -18,14 +18,8 @@ module.exports = (sequelize, Sequelize) => {
             }
         },
         {
-            freezeTableName: false,
+            freezeTableName: true,
             timestamps: true
         }
     )
-
-    KnowledgeGame.sync({
-        force: false
-    })
-
-    return KnowledgeGame
 }

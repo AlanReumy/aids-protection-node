@@ -1,23 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
-    const Question = sequelize.define(
-        'questions',
+    return sequelize.define(
+        'question',
         {
             title: Sequelize.STRING(100),
-            desc: Sequelize.STRING(100),
+            desc: Sequelize.STRING(1000),
             userId: {
                 type: Sequelize.INTEGER,
                 field: 'user_id'
             }
         },
         {
-            freezeTableName: false,
+            freezeTableName: true,
             timestamps: true
         }
     )
-
-    Question.sync({
-        force: false
-    })
-
-    return Question
 }

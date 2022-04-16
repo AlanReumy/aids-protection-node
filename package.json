@@ -1,10 +1,10 @@
 {
-    "name": "aidsProtectionNodeJs",
+    "name": "aidsProtectionNode",
     "version": "0.1.0",
     "private": true,
     "scripts": {
         "prd": "pm2 start bin/www",
-        "dev": "set NODE_ENV='development' && nodemon app.js",
+        "dev": "nodemon ./src/main.js",
         "build": "export NODE_ENV='production' && nodemon app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "prettier": "prettier --write .",
@@ -14,6 +14,7 @@
     "dependencies": {
         "ali-oss": "^6.17.1",
         "debug": "^4.1.1",
+        "dotenv": "^16.0.0",
         "formidable": "^2.0.1",
         "jsonwebtoken": "^8.5.1",
         "koa": "^2.7.0",
@@ -45,7 +46,7 @@
         "eslint": "^8.11.0",
         "eslint-plugin-prettier": "^4.0.0",
         "husky": "^7.0.4",
-        "nodemon": "^1.19.1",
+        "nodemon": "^1.19.4",
         "prettier": "^2.5.1"
     },
     "config": {

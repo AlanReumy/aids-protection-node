@@ -1,21 +1,15 @@
 module.exports = (sequelize, Sequelize) => {
-    const ExchangeItem = sequelize.define(
+    return sequelize.define(
         'exchangeItem',
         {
             name: Sequelize.STRING(100),
-            img: Sequelize.STRING(200),
+            img: Sequelize.STRING(1000),
             count: Sequelize.INTEGER,
             integral: Sequelize.INTEGER
         },
         {
-            freezeTableName: false,
+            freezeTableName: true,
             timestamps: true
         }
     )
-
-    ExchangeItem.sync({
-        force: false
-    })
-
-    return ExchangeItem
 }

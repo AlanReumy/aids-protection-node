@@ -1,8 +1,8 @@
 module.exports = (sequelize, Sequelize) => {
-    const Answer = sequelize.define(
-        'answers',
+    return sequelize.define(
+        'answer',
         {
-            title: Sequelize.STRING(100),
+            title: Sequelize.STRING(1000),
             content: Sequelize.STRING(1000),
             agree: {
                 type: Sequelize.INTEGER,
@@ -24,14 +24,8 @@ module.exports = (sequelize, Sequelize) => {
             }
         },
         {
-            freezeTableName: false,
+            freezeTableName: true,
             timestamps: true
         }
     )
-
-    Answer.sync({
-        force: false
-    })
-
-    return Answer
 }

@@ -1,88 +1,77 @@
-const dbConfig = require('../../config/index')
 const Sequelize = require('sequelize')
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
-    dialect: dbConfig.dialect,
-    pool: {
-        max: dbConfig.pool.max,
-        min: dbConfig.pool.min,
-        acquire: dbConfig.pool.acquire,
-        idle: dbConfig.pool.idle
-    },
-    logging: false
-})
+const sequelize = require('../app/database')
 
 const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 // 用户
-db.users = require('./user.model')(sequelize, Sequelize)
+db.user = require('./user.model')(sequelize, Sequelize)
 // 志愿服务
-db.volunteers = require('./volunteer.model')(sequelize, Sequelize)
+db.volunteer = require('./volunteer.model')(sequelize, Sequelize)
 db.volunteerUser = require('./volunteer_user.model')(
     sequelize,
     Sequelize,
-    db.users,
-    db.volunteers
+    db.user,
+    db.volunteer
 )
 
 // 问题
-db.questions = require('./question.model')(sequelize, Sequelize)
-// 问题
-db.answers = require('./answer.model')(sequelize, Sequelize)
+db.question = require('./question.model')(sequelize, Sequelize)
+// 回答
+db.answer = require('./answer.model')(sequelize, Sequelize)
 // 评论
-db.comments = require('./comment.model')(sequelize, Sequelize)
+db.comment = require('./comment.model')(sequelize, Sequelize)
 
-db.users.belongsToMany(db.volunteers, { through: db.volunteerUser })
-db.volunteers.belongsToMany(db.users, { through: db.volunteerUser })
+db.user.belongsToMany(db.volunteer, { through: db.volunteerUser })
+db.volunteer.belongsToMany(db.user, { through: db.volunteerUser })
 
 // 用户 回答
-db.users.hasMany(db.answers, {
+db.user.hasMany(db.answer, {
     foreignKey: 'userId',
     sourceKey: 'id'
 })
-db.answers.belongsTo(db.users, {
+db.answer.belongsTo(db.user, {
     foreignKey: 'userId',
     targetKey: 'id'
 })
 
 // 用户 问题
-db.users.hasMany(db.questions, {
+db.user.hasMany(db.question, {
     foreignKey: 'userId',
     sourceKey: 'id'
 })
-db.questions.belongsTo(db.users, {
+db.question.belongsTo(db.user, {
     foreignKey: 'userId',
     targetKey: 'id'
 })
 
 // 用户 评论
-db.users.hasMany(db.comments, {
+db.user.hasMany(db.comment, {
     foreignKey: 'userId',
     sourceKey: 'id'
 })
-db.comments.belongsTo(db.users, {
+db.comment.belongsTo(db.user, {
     foreignKey: 'userId',
     targetKey: 'id'
 })
 
 // 问题 回答
-db.questions.hasMany(db.answers, {
+db.question.hasMany(db.answer, {
     foreignKey: 'questionId',
     sourceKey: 'id'
 })
-db.answers.belongsTo(db.questions, {
+db.answer.belongsTo(db.question, {
     foreignKey: 'questionId',
     targetKey: 'id'
 })
 
 // 回答 评论
-db.answers.hasMany(db.comments, {
+db.answer.hasMany(db.comment, {
     foreignKey: 'answerId',
     sourceKey: 'id'
 })
-db.comments.belongsTo(db.answers, {
+db.comment.belongsTo(db.answer, {
     foreignKey: 'answerId',
     targetKey: 'id'
 })
@@ -91,14 +80,16 @@ db.comments.belongsTo(db.answers, {
 db.knowledgeGame = require('./knowledgeGame.model')(sequelize, Sequelize)
 // 积分系统
 db.exchangeItem = require('./exchangeItem.model')(sequelize, Sequelize)
+
 // 咨询医生
 db.consultant = require('./consultant.model')(sequelize, Sequelize)
 
-db.users.hasMany(db.consultant, {
+// 用户 咨询
+db.user.hasMany(db.consultant, {
     foreignKey: 'userId',
     sourceKey: 'id'
 })
-db.consultant.belongsTo(db.users, {
+db.consultant.belongsTo(db.user, {
     foreignKey: 'userId',
     targetKey: 'id'
 })

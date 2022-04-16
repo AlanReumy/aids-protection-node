@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-    const Comment = sequelize.define(
-        'comments',
+    return sequelize.define(
+        'comment',
         {
             content: Sequelize.STRING(1000),
             userId: {
@@ -13,14 +13,8 @@ module.exports = (sequelize, Sequelize) => {
             }
         },
         {
-            freezeTableName: false,
+            freezeTableName: true,
             timestamps: true
         }
     )
-
-    Comment.sync({
-        force: false
-    })
-
-    return Comment
 }

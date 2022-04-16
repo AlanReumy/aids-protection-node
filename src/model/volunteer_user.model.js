@@ -1,5 +1,5 @@
-module.exports = (sequelize, Sequelize, User, Volunteer) => {
-    const volunteerUser = sequelize.define(
+module.exports = (sequelize, Sequelize) => {
+    return sequelize.define(
         'volunteerUser',
         {
             id: {
@@ -17,14 +17,8 @@ module.exports = (sequelize, Sequelize, User, Volunteer) => {
             }
         },
         {
-            freezeTableName: false,
+            freezeTableName: true,
             timestamps: true
         }
     )
-
-    volunteerUser.sync({
-        force: false
-    })
-
-    return volunteerUser
 }

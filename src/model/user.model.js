@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define(
-        'users',
+    return sequelize.define(
+        'user',
         {
             username: {
                 type: Sequelize.STRING(100),
@@ -8,37 +8,27 @@ module.exports = (sequelize, Sequelize) => {
             },
             password: Sequelize.STRING(100),
             phone: Sequelize.STRING(100),
-            avatar: Sequelize.STRING(100),
-            // 是否是志愿者
+            avatar: Sequelize.STRING(1000),
             isVolunteer: {
                 type: Sequelize.BOOLEAN,
                 default: false
             },
-            // 是否是医生
             isDoctor: {
                 type: Sequelize.BOOLEAN,
                 default: false
             },
-            // 是否是患者
             isPatient: {
                 type: Sequelize.BOOLEAN,
                 default: false
             },
-            // 积分
             integral: {
                 type: Sequelize.INTEGER,
                 default: 0
             }
         },
         {
-            freezeTableName: false,
+            freezeTableName: true,
             timestamps: true
         }
     )
-
-    User.sync({
-        force: false
-    })
-
-    return User
 }

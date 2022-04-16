@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Consultant = sequelize.define(
+    return sequelize.define(
         'consultant',
         {
             age: Sequelize.INTEGER,
@@ -17,14 +17,8 @@ module.exports = (sequelize, Sequelize) => {
             }
         },
         {
-            freezeTableName: false,
+            freezeTableName: true,
             timestamps: true
         }
     )
-
-    Consultant.sync({
-        force: false
-    })
-
-    return Consultant
 }
