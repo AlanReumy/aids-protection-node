@@ -60,16 +60,9 @@ class Controller {
      */
     update(id, info) {
         console.log(id, info)
-        return this.model.update(
-            {
-                ...info
-            },
-            {
-                where: {
-                    id
-                }
-            }
-        )
+        return this.model.update({
+            ...info
+        })
     }
 
     /**
