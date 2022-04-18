@@ -77,7 +77,13 @@ db.comment.belongsTo(db.answer, {
 })
 
 // 知识竞赛
+db.gameQuestion = require('./gameQuestion.model')(sequelize, Sequelize)
 db.knowledgeGame = require('./knowledgeGame.model')(sequelize, Sequelize)
+db.knowledgeGame_gameQuestion = require('./knowledgeGame_gameQuestion.model')(
+    sequelize,
+    Sequelize
+)
+
 // 积分系统
 db.exchangeItem = require('./exchangeItem.model')(sequelize, Sequelize)
 

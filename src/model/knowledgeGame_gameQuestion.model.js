@@ -1,19 +1,19 @@
 module.exports = (sequelize, Sequelize) => {
     return sequelize.define(
-        'volunteer_user',
+        'knowledgeGame_gameQuestion',
         {
             id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
             },
-            userId: {
+            knowledgeGameId: {
                 type: Sequelize.INTEGER,
-                field: 'user_id'
+                field: 'knowledgeGame_id'
             },
-            volunteerId: {
+            gameQuestionId: {
                 type: Sequelize.INTEGER,
-                field: 'volunteer_id'
+                field: 'gameQuestion_id'
             }
         },
         {
