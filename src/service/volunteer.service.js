@@ -27,6 +27,10 @@ class VolunteerService {
             endDate
         })
     }
+
+    async ask(userId, volunteerId) {
+        return await db.volunteerUser.update({ userId, volunteerId })
+    }
 }
 
 module.exports = new VolunteerService(db.volunteer)

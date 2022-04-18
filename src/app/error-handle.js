@@ -26,9 +26,14 @@ const errorHandler = (error, ctx) => {
             status = 401
             message = '你不具备操作权限'
             break
+        case errorTypes.DOES_NOT_VOLUNTEER:
+            status = 401
+            message = '您不是志愿者'
+            break
         default:
             status = 404
             message = 'NOT FOUND'
+            break
     }
     ctx.status = status
     ctx.body = message

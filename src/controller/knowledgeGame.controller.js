@@ -1,28 +1,20 @@
-const knowledgeGameService = require('../service/knowledgeGame.service')
+const { create, list, oneFinish } = require('../service/knowledgeGame.service')
 
 class KnowledgeGameController {
     async create(ctx) {
         const { name, questionNum, personNum, finishNum } = ctx.request.body
-        ctx.body = await knowledgeGameService.create(
-            name,
-            questionNum,
-            personNum,
-            finishNum
-        )
+        ctx.body = await create(name, questionNum, personNum, finishNum)
     }
 
     async list(ctx) {
         const { offset, limit } = ctx.query
-        ctx.body = await knowledgeGameService.list(
-            parseInt(offset),
-            parseInt(limit)
-        )
+        ctx.body = await list(parseInt(offset), parseInt(limit))
     }
 
     async oneFinish(ctx) {
         const { id } = ctx.params
         const { correct, wrong } = ctx.request.body
-        ctx.body = await knowledgeGameService.oneFinish(correct, wrong, id)
+        ctx.body = await oneFinish(correct, wrong, id)
     }
 }
 

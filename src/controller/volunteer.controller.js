@@ -1,4 +1,5 @@
 const volunteerService = require('../service/volunteer.service')
+const { DOES_NOT_VOLUNTEER } = require('../constant/error-types')
 
 class VolunteerController {
     async create(ctx) {
@@ -29,6 +30,16 @@ class VolunteerController {
             startDate,
             endDate
         )
+    }
+
+    async ask(ctx) {
+        const { id: userId, isVolunteer } = ctx.user
+        const { id } = ctx.params
+        if (!isVolunteer) {
+            const error = new Error(DOES_NOT_VOLUNTEER)
+            return ctx.app.emit('error', error, ctx)
+        }
+        ctx.body = await volunteerService.ask(userId, id)
     }
 }
 
