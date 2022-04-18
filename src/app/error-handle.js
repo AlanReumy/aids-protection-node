@@ -30,7 +30,7 @@ const errorHandler = (error, ctx) => {
             status = 401
             message = '您不是志愿者'
             break
-        case errorTypes.NOT_ENOUGH_POINTES:
+        case errorTypes.NOT_ENOUGH_POINTS:
             status = 404
             message = '您的积分不足'
             break

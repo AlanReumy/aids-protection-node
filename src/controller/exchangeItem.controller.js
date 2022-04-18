@@ -1,7 +1,7 @@
 const exchangeItemService = require('../service/exchangeItem.service')
 const userService = require('../service/user.service')
 const {
-    NOT_ENOUGH_POINTES,
+    NOT_ENOUGH_POINTS,
     NOT_ENOUGH_EXCHANGEITEM
 } = require('../constant/error-types')
 
@@ -19,7 +19,7 @@ class ExchangeItemController {
             await exchangeItemService.getExchangeItemById(id)
         // 判断用户积分是否足够
         if (user.points < exchangeItem.points) {
-            const error = new Error(NOT_ENOUGH_POINTES)
+            const error = new Error(NOT_ENOUGH_POINTS)
             return ctx.app.emit('error', error, ctx)
         }
         // 扣除用户积分
