@@ -50,7 +50,7 @@ async function verifyAuth(ctx, next) {
 }
 
 // 验证管理员权限
-async function verifyPermission(ctx, next) {
+async function verifyAdmin(ctx, next) {
     const { isAdmin } = ctx.user
     if (!isAdmin) {
         const error = new Error(UNPERMISSION)
@@ -60,4 +60,4 @@ async function verifyPermission(ctx, next) {
     }
 }
 
-module.exports = { verifyLogin, verifyAuth, verifyPermission }
+module.exports = { verifyLogin, verifyAuth, verifyAdmin }

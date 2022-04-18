@@ -1,8 +1,5 @@
 const Router = require('koa-router')
-const {
-    verifyAuth,
-    verifyPermission
-} = require('../middleware/auth.middleware')
+const { verifyAuth, verifyAdmin } = require('../middleware/auth.middleware')
 const {
     create,
     exchange,
@@ -11,7 +8,7 @@ const {
 
 const exchangeItemRouter = new Router({ prefix: '/exchangeItem' })
 
-exchangeItemRouter.post('/', verifyAuth, verifyPermission, create)
+exchangeItemRouter.post('/', verifyAuth, verifyAdmin, create)
 exchangeItemRouter.get('/', list)
 exchangeItemRouter.patch('/:id', verifyAuth, exchange)
 

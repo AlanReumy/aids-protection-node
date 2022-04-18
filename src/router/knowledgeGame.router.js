@@ -4,14 +4,11 @@ const {
     list,
     oneFinish
 } = require('../controller/knowledgeGame.controller')
-const {
-    verifyAuth,
-    verifyPermission
-} = require('../middleware/auth.middleware')
+const { verifyAuth, verifyAdmin } = require('../middleware/auth.middleware')
 
 const knowledgeGameRouter = new Router({ prefix: '/knowledgeGame' })
 
-knowledgeGameRouter.post('/', verifyAuth, verifyPermission, create)
+knowledgeGameRouter.post('/', verifyAuth, verifyAdmin, create)
 knowledgeGameRouter.get('/', list)
 knowledgeGameRouter.patch('/:id', verifyAuth, oneFinish)
 

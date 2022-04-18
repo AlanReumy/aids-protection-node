@@ -3,7 +3,8 @@ module.exports = (sequelize, Sequelize) => {
         'consultant',
         {
             age: Sequelize.INTEGER,
-            sex: Sequelize.STRING(100),
+            // 0为男，1为女
+            sex: Sequelize.INTEGER,
             symptom: Sequelize.STRING(1000),
             cQuestion: Sequelize.STRING(1000),
             cAnswer: Sequelize.STRING(1000),

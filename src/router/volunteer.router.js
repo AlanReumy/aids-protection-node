@@ -5,14 +5,11 @@ const {
     update,
     ask
 } = require('../controller/volunteer.controller')
-const {
-    verifyAuth,
-    verifyPermission
-} = require('../middleware/auth.middleware')
+const { verifyAuth, verifyAdmin } = require('../middleware/auth.middleware')
 
 const volunteerRouter = new Router({ prefix: '/volunteer' })
 
-volunteerRouter.post('/', verifyAuth, verifyPermission, create)
+volunteerRouter.post('/', verifyAuth, verifyAdmin, create)
 volunteerRouter.get('/', list)
 volunteerRouter.patch('/:id', verifyAuth, ask)
 volunteerRouter.put('/:id', verifyAuth, update)
