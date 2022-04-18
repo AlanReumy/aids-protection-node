@@ -30,6 +30,14 @@ const errorHandler = (error, ctx) => {
             status = 401
             message = '您不是志愿者'
             break
+        case errorTypes.NOT_ENOUGH_POINTES:
+            status = 404
+            message = '您的积分不足'
+            break
+        case errorTypes.NOT_ENOUGH_EXCHANGEITEM:
+            status = 404
+            message = '商品已经被兑换完了'
+            break
         default:
             status = 404
             message = 'NOT FOUND'

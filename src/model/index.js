@@ -9,12 +9,10 @@ db.sequelize = sequelize
 db.user = require('./user.model')(sequelize, Sequelize)
 // 志愿服务
 db.volunteer = require('./volunteer.model')(sequelize, Sequelize)
-db.volunteerUser = require('./volunteer_user.model')(
-    sequelize,
-    Sequelize,
-    db.user,
-    db.volunteer
-)
+db.volunteerUser = require('./volunteer_user.model')(sequelize, Sequelize)
+
+db.user.belongsToMany(db.volunteer, { through: db.volunteerUser })
+db.volunteer.belongsToMany(db.user, { through: db.volunteerUser })
 
 // 问题
 db.question = require('./question.model')(sequelize, Sequelize)
@@ -22,9 +20,6 @@ db.question = require('./question.model')(sequelize, Sequelize)
 db.answer = require('./answer.model')(sequelize, Sequelize)
 // 评论
 db.comment = require('./comment.model')(sequelize, Sequelize)
-
-db.user.belongsToMany(db.volunteer, { through: db.volunteerUser })
-db.volunteer.belongsToMany(db.user, { through: db.volunteerUser })
 
 // 用户 回答
 db.user.hasMany(db.answer, {
@@ -84,8 +79,21 @@ db.knowledgeGame_gameQuestion = require('./knowledgeGame_gameQuestion.model')(
     Sequelize
 )
 
+db.gameQuestion.belongsToMany(db.knowledgeGame, {
+    through: db.knowledgeGame_gameQuestion
+})
+db.knowledgeGame.belongsToMany(db.gameQuestion, {
+    through: db.knowledgeGame_gameQuestion
+})
+
 // 积分系统
 db.exchangeItem = require('./exchangeItem.model')(sequelize, Sequelize)
+db.exchangeItem_user = require('./exchangeItem_user.model')(
+    sequelize,
+    Sequelize
+)
+db.exchangeItem.belongsToMany(db.user, { through: db.exchangeItem_user })
+db.user.belongsToMany(db.exchangeItem, { through: db.exchangeItem_user })
 
 // 咨询医生
 db.consultant = require('./consultant.model')(sequelize, Sequelize)

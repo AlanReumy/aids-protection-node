@@ -25,7 +25,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.BOOLEAN,
                 defaultValue: false
             },
-            integral: {
+            points: {
                 type: Sequelize.INTEGER,
                 defaultValue: 0
             }

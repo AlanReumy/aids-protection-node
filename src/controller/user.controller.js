@@ -7,7 +7,7 @@ const md5password = require('../util/password-handle')
 
 class UserController {
     async create(ctx) {
-        const { username, password, phone } = ctx.request.body
+        const { username, password, phone, isAdmin } = ctx.request.body
         // 判断参数
         if (!username || !password || !phone) {
             const error = new Error(PARAMETER_MISSING)
@@ -24,7 +24,8 @@ class UserController {
         const { dataValues } = await userService.create(
             username,
             md5password(password),
-            phone
+            phone,
+            isAdmin
         )
         delete dataValues.password
         ctx.body = dataValues

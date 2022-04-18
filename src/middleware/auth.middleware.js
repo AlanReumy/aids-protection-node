@@ -16,7 +16,6 @@ async function verifyLogin(ctx, next) {
         const error = new Error(PARAMETER_MISSING)
         return ctx.app.emit('error', error, ctx)
     }
-
     const result = await userService.getUserByUsername(username)
     const user = result[0]
 

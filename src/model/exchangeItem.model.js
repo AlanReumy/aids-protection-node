@@ -3,9 +3,15 @@ module.exports = (sequelize, Sequelize) => {
         'exchangeItem',
         {
             name: Sequelize.STRING(100),
-            img: Sequelize.STRING(1000),
-            count: Sequelize.INTEGER,
-            integral: Sequelize.INTEGER
+            img: Sequelize.STRING(10000),
+            count: {
+                type: Sequelize.INTEGER,
+                defaultValue: 0
+            },
+            points: {
+                type: Sequelize.INTEGER,
+                defaultValue: 0
+            }
         },
         {
             freezeTableName: true,
