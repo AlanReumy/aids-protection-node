@@ -3,27 +3,31 @@ module.exports = (sequelize, Sequelize) => {
         'user',
         {
             username: {
-                type: Sequelize.STRING(100),
+                type: Sequelize.STRING(500),
                 unique: true
             },
-            password: Sequelize.STRING(100),
+            password: Sequelize.STRING(500),
             phone: Sequelize.STRING(100),
             avatar: Sequelize.STRING(1000),
+            isAdmin: {
+                type: Sequelize.BOOLEAN,
+                defaultValue: false
+            },
             isVolunteer: {
                 type: Sequelize.BOOLEAN,
-                default: false
+                defaultValue: false
             },
             isDoctor: {
                 type: Sequelize.BOOLEAN,
-                default: false
+                defaultValue: false
             },
             isPatient: {
                 type: Sequelize.BOOLEAN,
-                default: false
+                defaultValue: false
             },
             integral: {
                 type: Sequelize.INTEGER,
-                default: 0
+                defaultValue: 0
             }
         },
         {

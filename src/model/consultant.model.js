@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
             cAnswer: Sequelize.STRING(1000),
             haveReplies: {
                 type: Sequelize.BOOLEAN,
-                default: false
+                defaultValue: false
             },
             userId: {
                 type: Sequelize.INTEGER,

@@ -2,7 +2,8 @@ const {
     PARAMETER_MISSING,
     USER_DOES_NOT_EXISTS,
     PASSWORD_IS_INCORRECT,
-    UNAUTHORIAZTION
+    UNAUTHORIAZTION,
+    UNPERMISSION
 } = require('../constant/error-types')
 const { PUBLIC_KEY } = require('../app/config')
 const jwt = require('jsonwebtoken')
@@ -33,6 +34,7 @@ async function verifyLogin(ctx, next) {
     await next()
 }
 
+// 验证登录
 async function verifyAuth(ctx, next) {
     // 1.获取token
     const authorization = ctx.headers.authorization
@@ -48,4 +50,15 @@ async function verifyAuth(ctx, next) {
     }
 }
 
-module.exports = { verifyLogin, verifyAuth }
+// 验证管理员权限
+async function verifyPermission(ctx, next) {
+    const { isAdmin } = ctx.user
+    if (!isAdmin) {
+        const error = new Error(UNPERMISSION)
+        ctx.app.emit('error', error, ctx)
+    } else {
+        await next()
+    }
+}
+
+module.exports = { verifyLogin, verifyAuth, verifyPermission }
