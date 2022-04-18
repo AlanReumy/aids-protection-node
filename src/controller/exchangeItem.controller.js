@@ -13,6 +13,7 @@ class ExchangeItemController {
 
     async exchange(ctx) {
         const { id } = ctx.params
+        const { address, addressee, phone } = ctx.request.body
         const { id: userId } = ctx.user
         const { dataValues: user } = await userService.getUserById(userId)
         const { dataValues: exchangeItem } =
@@ -34,7 +35,23 @@ class ExchangeItemController {
             return ctx.app.emit('error', error, ctx)
         }
         // 减少商品数量
-        ctx.body = await exchangeItemService.changeCount(id, 'decrement')
+        await exchangeItemService.changeCount(id, 'decrement')
+        // 完成兑换
+        ctx.body = await exchangeItemService.exchange(
+            exchangeItem.id,
+            user.id,
+            address,
+            addressee,
+            parseInt(phone)
+        )
+    }
+
+    async list(ctx) {
+        const { offset, limit } = ctx.query
+        ctx.body = await exchangeItemService.list(
+            parseInt(offset),
+            parseInt(limit)
+        )
     }
 }
 

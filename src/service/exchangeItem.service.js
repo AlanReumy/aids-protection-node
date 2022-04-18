@@ -13,6 +13,20 @@ class ExchangeItemService {
         const exchangeItem = await db.exchangeItem.findOne({ where: { id } })
         return await exchangeItem[type]('count')
     }
+
+    async list(offset, limit) {
+        return await db.exchangeItem.findAll({ offset, limit })
+    }
+
+    async exchange(exchangeItemId, userId, address, addressee, phone) {
+        return await db.exchangeItem_user.create({
+            exchangeItemId,
+            userId,
+            address,
+            addressee,
+            phone
+        })
+    }
 }
 
 module.exports = new ExchangeItemService()

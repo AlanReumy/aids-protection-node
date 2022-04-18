@@ -92,8 +92,6 @@ db.exchangeItem_user = require('./exchangeItem_user.model')(
     sequelize,
     Sequelize
 )
-db.exchangeItem.belongsToMany(db.user, { through: db.exchangeItem_user })
-db.user.belongsToMany(db.exchangeItem, { through: db.exchangeItem_user })
 
 // 咨询医生
 db.consultant = require('./consultant.model')(sequelize, Sequelize)
