@@ -3,13 +3,15 @@ const {
     USER_DOES_NOT_EXISTS,
     PASSWORD_IS_INCORRECT,
     UNAUTHORIAZTION,
-    UNPERMISSION
+    UNPERMISSION,
+    DOES_NOT_DOCTOR
 } = require('../constant/error-types')
 const { PUBLIC_KEY } = require('../app/config')
 const jwt = require('jsonwebtoken')
 const userService = require('../service/user.service')
 const md5password = require('../util/password-handle')
 
+// 登录验证用户名密码
 async function verifyLogin(ctx, next) {
     const { username, password } = ctx.request.body
     if (!username || !password) {
@@ -60,4 +62,15 @@ async function verifyAdmin(ctx, next) {
     }
 }
 
-module.exports = { verifyLogin, verifyAuth, verifyAdmin }
+// 验证医生权限
+async function verifyDoctor(ctx, next) {
+    const { id: userId } = ctx.user
+    const result = await userService.getUserById(userId)
+    if (!result.dataValues.isDoctor) {
+        const error = new Error(DOES_NOT_DOCTOR)
+        return ctx.app.emit('error', error, ctx)
+    }
+    await next()
+}
+
+module.exports = { verifyLogin, verifyAuth, verifyAdmin, verifyDoctor }

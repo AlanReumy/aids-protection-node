@@ -13,6 +13,22 @@ class ConsultantController {
             userId
         )
     }
+
+    async list(ctx) {
+        const { offset, limit } = ctx.query
+        const { id: userId } = ctx.user
+        ctx.body = await consultantService.list(
+            parseInt(offset),
+            parseInt(limit),
+            userId
+        )
+    }
+
+    async reply(ctx) {
+        const { id } = ctx.params
+        const { cAnswer } = ctx.request.body
+        ctx.body = await consultantService.reply(cAnswer, id)
+    }
 }
 
 module.exports = new ConsultantController()

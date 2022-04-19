@@ -38,6 +38,10 @@ const errorHandler = (error, ctx) => {
             status = 404
             message = '商品已经被兑换完了'
             break
+        case errorTypes.DOES_NOT_DOCTOR:
+            status = 401
+            message = '您不是医生'
+            break
         default:
             status = 404
             message = 'NOT FOUND'

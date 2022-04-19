@@ -11,6 +11,20 @@ class ConsultantService {
             userId
         })
     }
+
+    async list(offset, limit, userId) {
+        return await db.consultant.findAll(
+            { offset, limit },
+            { where: { userId } }
+        )
+    }
+
+    async reply(cAnswer, id) {
+        return await db.consultant.update(
+            { cAnswer, haveReplies: true },
+            { where: { id } }
+        )
+    }
 }
 
 module.exports = new ConsultantService()
