@@ -37,6 +37,28 @@ class UserController {
         delete dataValues.password
         ctx.body = dataValues
     }
+
+    async update(ctx) {
+        const { id } = ctx.user
+        const { username, password, phone, avatar } = ctx.request.body
+        ctx.body = await userService.update(
+            username,
+            password,
+            phone,
+            avatar,
+            id
+        )
+    }
+
+    async beVolunteer(ctx) {
+        const { id } = ctx.params
+        ctx.body = await userService.beVolunteer(id)
+    }
+
+    async beDoctor(ctx) {
+        const { id } = ctx.params
+        ctx.body = await userService.beDoctor(id)
+    }
 }
 
 module.exports = new UserController()
