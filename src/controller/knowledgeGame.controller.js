@@ -24,6 +24,11 @@ class KnowledgeGameController {
         const { correct, wrong } = ctx.request.body
         ctx.body = await knowledgeGameService.oneFinish(correct, wrong, id)
     }
+
+    async remove(ctx) {
+        const { id } = ctx.params
+        ctx.body = await knowledgeGameService.remove(id)
+    }
 }
 
 module.exports = new KnowledgeGameController()

@@ -23,6 +23,10 @@ class GameQuestionService {
             limit
         })
     }
+
+    async remove(id) {
+        return await db.gameQuestion.destroy({ where: { id } })
+    }
 }
 
 module.exports = new GameQuestionService()

@@ -35,6 +35,13 @@ class KnowledgeGameService {
             { where: { id } }
         )
     }
+
+    async remove(id) {
+        db.knowledgeGame_gameQuestion.destroy({
+            where: { knowledgeGameId: id }
+        })
+        return await db.knowledgeGame.destroy({ where: { id } })
+    }
 }
 
 module.exports = new KnowledgeGameService()

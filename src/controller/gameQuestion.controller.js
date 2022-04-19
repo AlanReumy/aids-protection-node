@@ -21,6 +21,11 @@ class GameQuestionController {
             parseInt(limit)
         )
     }
+
+    async remove(ctx) {
+        const { id } = ctx.params
+        ctx.body = await gameQuestionService.remove(id)
+    }
 }
 
 module.exports = new GameQuestionController()
