@@ -2,10 +2,10 @@
 
 ## 分层
 
-- router
-- model
-- controller
-- service
+-   router
+-   model
+-   controller
+-   service
 
 ## 中间件
 
