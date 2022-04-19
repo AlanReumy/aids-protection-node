@@ -3,6 +3,7 @@ module.exports = (sequelize, Sequelize) => {
         'article',
         {
             title: Sequelize.STRING(100),
+            cover: Sequelize.STRING(1000),
             content: Sequelize.STRING(1000),
             type: Sequelize.INTEGER
         },
