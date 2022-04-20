@@ -3,14 +3,13 @@ const gameQuestionService = require('./gameQuestion.service')
 const Sequelize = require('sequelize')
 
 class KnowledgeGameService {
-    async create(name, questionNum, personNum, finishNum) {
+    async create(name, questionNum, personNum) {
         const {
             dataValues: { id: knowledgeGameId }
         } = await db.knowledgeGame.create({
             name,
             questionNum,
-            personNum,
-            finishNum
+            personNum
         })
         const questionArr = await gameQuestionService.randomQuestionList(
             questionNum

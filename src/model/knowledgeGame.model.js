@@ -7,7 +7,6 @@ module.exports = (sequelize, Sequelize) => {
             personNum: Sequelize.INTEGER,
             finishNum: {
                 type: Sequelize.INTEGER,
-
                 defaultValue: 0
             },
             correct: {

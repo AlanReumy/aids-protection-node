@@ -1,12 +1,8 @@
 const db = require('../model/index')
 
 class VolunteerService {
-    constructor(model) {
-        this.model = model
-    }
-
     async create(title, desc, startDate, endDate) {
-        return await this.model.create({
+        return await db.volunteer.create({
             title,
             desc,
             startDate,
@@ -15,22 +11,24 @@ class VolunteerService {
     }
 
     async list(offset, limit) {
-        return await this.model.findAll({ limit, offset })
+        return await db.volunteer.findAll({ limit, offset })
     }
 
     async update(id, title, desc, startDate, endDate) {
-        console.log(id)
-        return await this.model.update({
-            title,
-            desc,
-            startDate,
-            endDate
-        })
+        return await db.volunteer.update(
+            {
+                title,
+                desc,
+                startDate,
+                endDate
+            },
+            { where: { id } }
+        )
     }
 
     async ask(userId, volunteerId) {
-        return await db.volunteerUser.update({ userId, volunteerId })
+        return await db.volunteerUser.create({ userId, volunteerId })
     }
 }
 
-module.exports = new VolunteerService(db.volunteer)
+module.exports = new VolunteerService()

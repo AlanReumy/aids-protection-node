@@ -2,12 +2,11 @@ const knowledgeGameService = require('../service/knowledgeGame.service')
 
 class KnowledgeGameController {
     async create(ctx) {
-        const { name, questionNum, personNum, finishNum } = ctx.request.body
+        const { name, questionNum, personNum } = ctx.request.body
         ctx.body = await knowledgeGameService.create(
             name,
             questionNum,
-            personNum,
-            finishNum
+            personNum
         )
     }
 
