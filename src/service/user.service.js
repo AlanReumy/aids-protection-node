@@ -41,6 +41,12 @@ class UserService {
     async beDoctor(id) {
         return await db.user.update({ isDoctor: true }, { where: { id } })
     }
+
+    async updateUserAvatar(id, host, filename) {
+        const avatar = 'http://' + host + '/avatar/' + filename
+        await db.user.update({ avatar }, { where: { id } })
+        return { avatar }
+    }
 }
 
 module.exports = new UserService()
