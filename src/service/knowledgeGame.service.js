@@ -36,10 +36,24 @@ class KnowledgeGameService {
     }
 
     async remove(id) {
-        db.knowledgeGame_gameQuestion.destroy({
+        await db.knowledgeGame_gameQuestion.destroy({
             where: { knowledgeGameId: id }
         })
         return await db.knowledgeGame.destroy({ where: { id } })
+    }
+
+    async detail(id) {
+        const questionIds = await db.knowledgeGame_gameQuestion.findAll({
+            where: { knowledgeGameId: id }
+        })
+        const questionArr = []
+        for (const item of questionIds) {
+            const q = await db.gameQuestion.findOne({
+                where: { id: item.dataValues.id }
+            })
+            questionArr.push(q)
+        }
+        return questionArr
     }
 }
 

@@ -28,6 +28,11 @@ class KnowledgeGameController {
         const { id } = ctx.params
         ctx.body = await knowledgeGameService.remove(id)
     }
+
+    async detail(ctx) {
+        const { id } = ctx.params
+        ctx.body = await knowledgeGameService.detail(id)
+    }
 }
 
 module.exports = new KnowledgeGameController()

@@ -3,7 +3,8 @@ const {
     create,
     list,
     oneFinish,
-    remove
+    remove,
+    detail
 } = require('../controller/knowledgeGame.controller')
 const { verifyAuth, verifyAdmin } = require('../middleware/auth.middleware')
 
@@ -13,5 +14,6 @@ knowledgeGameRouter.post('/', verifyAuth, verifyAdmin, create)
 knowledgeGameRouter.get('/', list)
 knowledgeGameRouter.patch('/:id', verifyAuth, oneFinish)
 knowledgeGameRouter.delete('/:id', verifyAuth, verifyAdmin, remove)
+knowledgeGameRouter.get('/:id', detail)
 
 module.exports = knowledgeGameRouter

@@ -6,15 +6,15 @@
 
 ## 使用方法
 
--   克隆
+- 克隆
 
     `git clone git@github.com:ZimTang/aids-protection-node.git`
 
--   安装
+- 安装
 
     `npm install`
 
--   在项目根目录下创建.env 文件
+- 在项目根目录下创建.env 文件
 
     ```.env
     // 数据库主机
@@ -37,9 +37,15 @@
     PORT = 3000
     ```
 
--   创建对应名称的数据库
+- 创建对应名称的数据库
+- 使用openssl生成一对私钥和公钥
+  ```shell
+  openssl
 
--   运行
+  > genrsa -out private.key 1024
+  > rsa -in private.key -pubout -out public.key
+  ```
+- 运行
 
     `npm run dev`
 
