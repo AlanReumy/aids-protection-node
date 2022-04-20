@@ -1,8 +1,8 @@
 # aids-protection-nodejs
 
-基于 koa + sequelize + mysql 开发的预防艾滋病小程序后端
+基于 Koa + sequelize + MySQL 开发的预防艾滋病小程序后端
 
-适合 nodejs 初学者学习使用
+适合 Node.js 初学者学习使用
 
 ## 使用方法
 
@@ -63,4 +63,4 @@
 
 ## 在线文档
 
-[红丝带小卫士](https://docs.apipost.cn/preview/45631c3c545bca4f/d9d125c72b5afdc3)
+[红丝带小卫士](https://www.apifox.cn/apidoc/shared-0ed5faa7-187b-4cc4-ae59-8ae68d76e88e/api-17410691)
