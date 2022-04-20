@@ -45,6 +45,7 @@
   > genrsa -out private.key 1024
   > rsa -in private.key -pubout -out public.key
   ```
+- 将生成的`private.key`和`public.key`放在`src/app/keys`文件夹下
 - 运行
 
     `npm run dev`
