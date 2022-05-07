@@ -1,7 +1,6 @@
 import { Context } from 'koa'
-
-const { PRIVATE_KEY } = require('../app/config')
-const jwt = require('jsonwebtoken')
+import { PRIVATE_KEY } from '../app/config'
+import jwt from 'jsonwebtoken'
 
 class AuthController {
   async login(ctx: Context) {

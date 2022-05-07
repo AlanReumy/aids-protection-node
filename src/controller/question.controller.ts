@@ -1,10 +1,10 @@
 import { Context } from 'koa'
-
-const questionService = require('../service/question.service')
+import { Question } from '../model/types'
+import questionService from '../service/question.service'
 
 class QuestionController {
   async create(ctx: Context) {
-    const { title, desc } = ctx.request.body
+    const { title, desc }: Question = ctx.request.body
     const { id: userId } = ctx.user
     ctx.body = await questionService.create(userId, title, desc)
   }

@@ -1,39 +1,42 @@
 import { Context, Next } from 'koa'
+import jwt from 'jsonwebtoken'
+import { User } from '../model/types'
+import { PUBLIC_KEY } from '../app/config'
+import userService from '../service/user.service'
+import md5password from '../util/password-handle'
+import ErrorTypes from '../constant/error-types'
 
-const {
-  PARAMETER_MISSING,
-  USER_DOES_NOT_EXISTS,
-  PASSWORD_IS_INCORRECT,
-  UNAUTHORIAZTION,
-  UNPERMISSION,
-  DOES_NOT_DOCTOR
-} = require('../constant/error-types')
-const { PUBLIC_KEY } = require('../app/config')
-const jwt = require('jsonwebtoken')
-const userService = require('../service/user.service')
-const md5password = require('../util/password-handle')
 
 // 登录验证用户名密码
 async function verifyLogin(ctx: Context, next: Next) {
-  const { username, password } = ctx.request.body
+  const { username, password }: User = ctx.request.body
   if (!username || !password) {
-    const error = new Error(PARAMETER_MISSING)
+    const error = new Error(ErrorTypes.PARAMETER_MISSING)
     return ctx.app.emit('error', error, ctx)
   }
   const result = await userService.getUserByUsername(username)
-  const user = result[0]
+  const user = result && result[0]
 
   if (!user) {
-    const error = new Error(USER_DOES_NOT_EXISTS)
+    const error = new Error(ErrorTypes.USER_DOES_NOT_EXISTS)
     return ctx.app.emit('error', error, ctx)
   }
 
-  if (!(md5password(password) === user.dataValues.password)) {
-    const error = new Error(PASSWORD_IS_INCORRECT)
+  if (!(md5password(password) === user.getDataValue('password'))) {
+    const error = new Error(ErrorTypes.PASSWORD_IS_INCORRECT)
     return ctx.app.emit('error', error, ctx)
   }
 
-  ctx.user = user.dataValues
+  ctx.user = {
+    id: user.getDataValue('id'),
+    username: user.getDataValue('username'),
+    password: user.getDataValue('password'),
+    isAdmin: user.getDataValue('isAdmin'),
+    isDoctor: user.getDataValue('isDoctor'),
+    points: user.getDataValue('points'),
+    avatar: user.getDataValue('avatar')
+  }
+
   await next()
 }
 
@@ -44,11 +47,11 @@ async function verifyAuth(ctx: Context, next: Next) {
   const token = authorization && authorization.replace('Bearer ', '')
   // 2.验证token(id/name/iat/exp)
   try {
-    ctx.user = jwt.verify(token, PUBLIC_KEY, { algorithms: ['RS256'] })
+    ctx.user = jwt.verify(token || '', PUBLIC_KEY, { algorithms: ['RS256'] })
     await next()
   } catch (err) {
     console.log(err)
-    const error = new Error(UNAUTHORIAZTION)
+    const error = new Error(ErrorTypes.UNAUTHORIAZTION)
     ctx.app.emit('error', error, ctx)
   }
 }
@@ -57,7 +60,7 @@ async function verifyAuth(ctx: Context, next: Next) {
 async function verifyAdmin(ctx: Context, next: Next) {
   const { isAdmin } = ctx.user
   if (!isAdmin) {
-    const error = new Error(UNPERMISSION)
+    const error = new Error(ErrorTypes.UNPERMISSION)
     ctx.app.emit('error', error, ctx)
   } else {
     await next()
@@ -68,8 +71,8 @@ async function verifyAdmin(ctx: Context, next: Next) {
 async function verifyDoctor(ctx: Context, next: Next) {
   const { id: userId } = ctx.user
   const result = await userService.getUserById(userId)
-  if (!result.dataValues.isDoctor) {
-    const error = new Error(DOES_NOT_DOCTOR)
+  if (!result?.getDataValue('isDoctor')) {
+    const error = new Error(ErrorTypes.DOES_NOT_DOCTOR)
     return ctx.app.emit('error', error, ctx)
   }
   await next()
