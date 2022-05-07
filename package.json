@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "prd": "pm2 start bin/www",
-    "dev": "nodemon ./src/main.js",
+    "dev": "tsc --watch & export NODE_ENV=development",
+    "start": "nodemon dist/main.js",
     "build": "export NODE_ENV='production' && nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --write .",
