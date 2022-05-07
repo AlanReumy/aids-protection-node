@@ -1,6 +1,6 @@
 # aids-protection-nodejs
 
-基于 Koa + sequelize + MySQL 开发的预防艾滋病小程序后端
+基于 Koa + Typescript + sequelize + MySQL 的 预防艾滋病宣传 的小程序后端
 
 适合 Node.js 初学者学习使用
 
