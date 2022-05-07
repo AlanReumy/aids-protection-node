@@ -1,12 +1,16 @@
 import { Context } from 'koa'
 import userService from '../service/user.service'
 import ErrorTypes from '../constant/error-types'
+import { User } from '../model/types'
+import md5password from '../util/password-handle'
 
-const md5password = require('../util/password-handle')
+interface UserParam extends Omit<User, 'phone'> {
+  phone: string
+}
 
 class UserController {
   async create(ctx: Context) {
-    const { username, password, phone, isAdmin } = ctx.request.body
+    const { username, password, phone, isAdmin }: UserParam = ctx.request.body
     // 判断参数
     if (!username || !password || !phone) {
       const error = new Error(ErrorTypes.PARAMETER_MISSING)
@@ -20,31 +24,46 @@ class UserController {
       return ctx.app.emit('error', error, ctx)
     }
     // 注册
-    // TODO：不能返回用户密码
     const res = await userService.create(
       username,
       md5password(password),
-      phone,
+      parseInt(password),
       isAdmin
     )
-    ctx.body = res
+
+    ctx.body = {
+      id: res?.id,
+      username: res?.username,
+      isAdmin: res?.isAdmin,
+      points: res?.points,
+      phone: res?.phone,
+      isDoctor: res?.isDoctor,
+      isPatient: res?.isPatient
+    }
   }
 
   async getUserInfoById(ctx: Context) {
-    const { id } = ctx.params
+    const { id }: { id: number } = ctx.params
     const res = await userService.getUserById(id)
-    // TODO：不能返回用户密码
-    ctx.body = res
+    ctx.body = {
+      id: res?.id,
+      username: res?.username,
+      isAdmin: res?.isAdmin,
+      points: res?.points,
+      phone: res?.phone,
+      isDoctor: res?.isDoctor,
+      isPatient: res?.isPatient
+    }
   }
 
   async update(ctx: Context) {
-    const { id } = ctx.user
-    const { username, password, phone, avatar } = ctx.request.body
-    ctx.body = await userService.update(username, password, phone, avatar, id)
+    const { id }: { id: number } = ctx.user
+    const { username, password, phone, avatar }: UserParam = ctx.request.body
+    ctx.body = await userService.update(username, password, parseInt(phone), avatar, id)
   }
 
   async beDoctor(ctx: Context) {
-    const { id } = ctx.params
+    const { id }: { id: number } = ctx.params
     ctx.body = await userService.beDoctor(id)
   }
 }

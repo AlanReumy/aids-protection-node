@@ -1,6 +1,6 @@
-const Multer = require('koa-multer')
-const path = require('path')
-const { AVATAR_PATH, PICTURE_PATH } = require('../constant/file-path')
+import Multer from 'koa-multer'
+import path from 'path'
+import { AVATAR_PATH, PICTURE_PATH } from '../constant/file-path'
 
 const avatarStorage = Multer.diskStorage({
   destination: (req, file, cb) => {
@@ -23,8 +23,9 @@ const avatarUpload = Multer({
   dest: AVATAR_PATH,
   storage: avatarStorage
 })
+
 const pictureUpload = Multer({
-  desk: PICTURE_PATH,
+  dest: PICTURE_PATH,
   storage: pictureStorage
 })
 

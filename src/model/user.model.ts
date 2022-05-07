@@ -15,7 +15,7 @@ export default (sequelize: Sequelize) => {
       },
       password: {
         type: new DataTypes.STRING(500),
-        allowNull: true
+        allowNull: false
       },
       phone: DataTypes.INTEGER,
       avatar: DataTypes.STRING(1000),
