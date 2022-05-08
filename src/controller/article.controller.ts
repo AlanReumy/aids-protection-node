@@ -1,10 +1,11 @@
 import { Context } from 'koa'
-
-const articleService = require('../service/article.service')
+import { AuthContext } from '../middleware/auth.middleware'
+import { Article } from '../model/types'
+import articleService from '../service/article.service'
 
 class ArticleController {
-  async create(ctx: Context) {
-    const { title, content, cover, type } = ctx.request.body
+  async create(ctx: AuthContext) {
+    const { title, content, cover, type }: Article = ctx.request.body
     ctx.body = await articleService.create(title, content, cover, type)
   }
 
@@ -13,7 +14,7 @@ class ArticleController {
     ctx.body = await articleService.list(
       parseInt(offset as string),
       parseInt(limit as string),
-      type
+      parseInt(type as string)
     )
   }
 }

@@ -6,9 +6,22 @@ import userService from '../service/user.service'
 import md5password from '../util/password-handle'
 import ErrorTypes from '../constant/error-types'
 
+export interface LoginContext extends Context {
+  user: Pick<User, 'id' | 'username' | 'password' | 'phone' | 'isAdmin' | 'isDoctor' | 'points' | 'avatar'>
+}
+
+export interface AuthContext extends Context {
+  user?: {
+    id: number
+    username: string
+    isAdmin: boolean
+    iat: number
+    exp: number
+  }
+}
 
 // 登录验证用户名密码
-async function verifyLogin(ctx: Context, next: Next) {
+async function verifyLogin(ctx: LoginContext, next: Next) {
   const { username, password }: User = ctx.request.body
   if (!username || !password) {
     const error = new Error(ErrorTypes.PARAMETER_MISSING)
@@ -31,34 +44,34 @@ async function verifyLogin(ctx: Context, next: Next) {
     id: user.getDataValue('id'),
     username: user.getDataValue('username'),
     password: user.getDataValue('password'),
+    phone: user.getDataValue('phone'),
     isAdmin: user.getDataValue('isAdmin'),
     isDoctor: user.getDataValue('isDoctor'),
     points: user.getDataValue('points'),
-    avatar: user.getDataValue('avatar')
+    avatar: user.getDataValue('avatar'),
   }
 
   await next()
 }
 
 // 验证登录
-async function verifyAuth(ctx: Context, next: Next) {
+async function verifyAuth(ctx: AuthContext, next: Next) {
   // 1.获取token
   const authorization = ctx.headers.authorization
   const token = authorization && authorization.replace('Bearer ', '')
   // 2.验证token(id/name/iat/exp)
   try {
-    ctx.user = jwt.verify(token || '', PUBLIC_KEY, { algorithms: ['RS256'] })
+    ctx.user = jwt.verify(token || '', PUBLIC_KEY, { algorithms: ['RS256'] }) as AuthContext['user']
     await next()
   } catch (err) {
-    console.log(err)
     const error = new Error(ErrorTypes.UNAUTHORIAZTION)
     ctx.app.emit('error', error, ctx)
   }
 }
 
 // 验证管理员权限
-async function verifyAdmin(ctx: Context, next: Next) {
-  const { isAdmin } = ctx.user
+async function verifyAdmin(ctx: AuthContext, next: Next) {
+  const { isAdmin } = ctx.user!
   if (!isAdmin) {
     const error = new Error(ErrorTypes.UNPERMISSION)
     ctx.app.emit('error', error, ctx)
@@ -68,8 +81,8 @@ async function verifyAdmin(ctx: Context, next: Next) {
 }
 
 // 验证医生权限
-async function verifyDoctor(ctx: Context, next: Next) {
-  const { id: userId } = ctx.user
+async function verifyDoctor(ctx: AuthContext, next: Next) {
+  const { id: userId } = ctx.user!
   const result = await userService.getUserById(userId)
   if (!result?.getDataValue('isDoctor')) {
     const error = new Error(ErrorTypes.DOES_NOT_DOCTOR)

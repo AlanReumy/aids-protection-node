@@ -3,7 +3,6 @@ import { verifyAuth, verifyAdmin } from '../middleware/auth.middleware'
 import knowledgeGameController from '../controller/knowledgeGame.controller'
 
 const { create, list, oneFinish, remove, detail } = knowledgeGameController
-
 const knowledgeGameRouter = new Router({ prefix: '/knowledgeGame' })
 
 knowledgeGameRouter.post('/', verifyAuth, verifyAdmin, create)

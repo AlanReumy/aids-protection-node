@@ -33,7 +33,7 @@ class UserService {
     type: 'increment' | 'decrement'
   ) {
     const user = await db.user?.findOne({ where: { id } })
-    user && (await user[type](['points'], { by: points }))
+    user && (await user[type]('points', { by: points }))
   }
 
   async update(

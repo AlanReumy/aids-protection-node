@@ -3,6 +3,7 @@ import userService from '../service/user.service'
 import ErrorTypes from '../constant/error-types'
 import { User } from '../model/types'
 import md5password from '../util/password-handle'
+import { AuthContext } from '../middleware/auth.middleware'
 
 interface UserParam extends Omit<User, 'phone'> {
   phone: string
@@ -56,13 +57,13 @@ class UserController {
     }
   }
 
-  async update(ctx: Context) {
-    const { id }: { id: number } = ctx.user
+  async update(ctx: AuthContext) {
+    const { id } = ctx.user!
     const { username, password, phone, avatar }: UserParam = ctx.request.body
     ctx.body = await userService.update(username, password, parseInt(phone), avatar, id)
   }
 
-  async beDoctor(ctx: Context) {
+  async beDoctor(ctx: AuthContext) {
     const { id }: { id: number } = ctx.params
     ctx.body = await userService.beDoctor(id)
   }

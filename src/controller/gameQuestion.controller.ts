@@ -1,10 +1,11 @@
 import { Context } from 'koa'
-
-const gameQuestionService = require('../service/gameQuestion.service')
+import { AuthContext } from '../middleware/auth.middleware'
+import { GameQuestion } from '../model/types'
+import gameQuestionService from '../service/gameQuestion.service'
 
 class GameQuestionController {
-  async create(ctx: Context) {
-    const { question, answerA, answerB, answerC, answerD, rightAnswer } =
+  async create(ctx: AuthContext) {
+    const { question, answerA, answerB, answerC, answerD, rightAnswer }: GameQuestion =
       ctx.request.body
     ctx.body = await gameQuestionService.create(
       question,
@@ -24,8 +25,8 @@ class GameQuestionController {
     )
   }
 
-  async remove(ctx: Context) {
-    const { id } = ctx.params
+  async remove(ctx: AuthContext) {
+    const { id }: { id: number } = ctx.params
     ctx.body = await gameQuestionService.remove(id)
   }
 }

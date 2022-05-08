@@ -1,10 +1,10 @@
-import { Context } from 'vm'
-
-const commentService = require('../service/comment.service')
+import { Context } from 'koa'
+import { AuthContext } from '../middleware/auth.middleware'
+import commentService from '../service/comment.service'
 
 class CommentController {
-  async create(ctx: Context) {
-    const { id: userId } = ctx.user
+  async create(ctx: AuthContext) {
+    const { id: userId } = ctx.user!
     const { content, answerId } = ctx.request.body
     ctx.body = await commentService.create(content, answerId, userId)
   }
@@ -12,9 +12,9 @@ class CommentController {
   async list(ctx: Context) {
     const { limit, offset, answerId } = ctx.query
     ctx.body = await commentService.list(
-      parseInt(limit),
-      parseInt(offset),
-      answerId
+      parseInt(limit as string),
+      parseInt(offset as string),
+      parseInt(answerId as string)
     )
   }
 }

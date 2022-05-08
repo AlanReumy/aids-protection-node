@@ -4,7 +4,6 @@ import fileController from '../controller/file.controller'
 import { avatarHandler, pictureHandler } from '../middleware/file.middleware'
 
 const { updateUserAvatar, uploadPicture } = fileController
-
 const fileRouter = new Router({ prefix: '/upload' })
 
 // 上传用户头像

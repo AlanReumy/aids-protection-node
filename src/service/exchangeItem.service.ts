@@ -9,9 +9,8 @@ class ExchangeItemService {
     return await db.exchangeItem?.findOne({ where: { id } })
   }
 
-  async changeCount(id: number) {
-    // TODO 自减
-    return await db.exchangeItem?.update({ count: 1 }, { where: { id } })
+  async changeCount(id: number, type: 'increment' | 'decrement') {
+    db.exchangeItem && (await db.exchangeItem[type]('count', { by: 1 }))
   }
 
   async list(offset: number, limit: number) {
